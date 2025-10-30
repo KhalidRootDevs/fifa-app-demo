@@ -1,138 +1,142 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { X, Mail, Lock, User, ArrowRight, Github, Twitter } from "lucide-react"
-import Image from "next/image"
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Mail, Lock, User, ArrowRight, Github, Twitter } from "lucide-react";
+import Image from "next/image";
 
 interface AuthModalProps {
-  isOpen: boolean
-  onClose: () => void
-  initialView?: "login" | "signup"
+  isOpen: boolean;
+  onClose: () => void;
+  initialView?: "login" | "signup";
 }
 
-export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalProps) {
-  const [view, setView] = useState<"login" | "signup" | "forgot">(initialView)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [name, setName] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
+export function AuthModal({
+  isOpen,
+  onClose,
+  initialView = "login",
+}: AuthModalProps) {
+  const [view, setView] = useState<"login" | "signup" | "forgot">(initialView);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // Reset form when modal opens/closes
   useEffect(() => {
     if (isOpen) {
-      setView(initialView)
-      setEmail("")
-      setPassword("")
-      setName("")
-      setError("")
+      setView(initialView);
+      setEmail("");
+      setPassword("");
+      setName("");
+      setError("");
     }
-  }, [isOpen, initialView])
+  }, [isOpen, initialView]);
 
   // Close modal on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onClose()
+        onClose();
       }
-    }
+    };
 
     if (isOpen) {
-      document.addEventListener("keydown", handleEscape)
+      document.addEventListener("keydown", handleEscape);
     }
 
     return () => {
-      document.removeEventListener("keydown", handleEscape)
-    }
-  }, [isOpen, onClose])
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"
+      document.body.style.overflow = "auto";
     }
 
     return () => {
-      document.body.style.overflow = "auto"
-    }
-  }, [isOpen])
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError("");
 
     if (!email || !password) {
-      setError("Please fill in all fields")
-      return
+      setError("Please fill in all fields");
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     // Simulate API call
     setTimeout(() => {
-      setIsLoading(false)
+      setIsLoading(false);
       // For demo purposes, always succeed
-      window.location.href = "/"
-    }, 1500)
-  }
+      window.location.href = "/";
+    }, 1500);
+  };
 
   const handleSignup = (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError("");
 
     if (!name || !email || !password) {
-      setError("Please fill in all fields")
-      return
+      setError("Please fill in all fields");
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     // Simulate API call
     setTimeout(() => {
-      setIsLoading(false)
+      setIsLoading(false);
       // For demo purposes, always succeed
-      window.location.href = "/"
-    }, 1500)
-  }
+      window.location.href = "/";
+    }, 1500);
+  };
 
   const handleForgotPassword = (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError("");
 
     if (!email) {
-      setError("Please enter your email")
-      return
+      setError("Please enter your email");
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     // Simulate API call
     setTimeout(() => {
-      setIsLoading(false)
-      setView("login")
+      setIsLoading(false);
+      setView("login");
       // Show success message
-      alert("Password reset link sent to your email")
-    }, 1500)
-  }
+      alert("Password reset link sent to your email");
+    }, 1500);
+  };
 
   const modalVariants = {
     hidden: { opacity: 0, scale: 0.95 },
     visible: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
     exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
-  }
+  };
 
   const overlayVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.2 } },
     exit: { opacity: 0, transition: { duration: 0.2 } },
-  }
+  };
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <AnimatePresence>
@@ -169,7 +173,12 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
               <div className="p-8">
                 {/* Logo */}
                 <div className="flex justify-center mb-6">
-                  <Image src="/logo.png" alt="Hola Football" width={150} height={50} />
+                  <Image
+                    src="/logo.png"
+                    alt="FIFA 2026"
+                    width={150}
+                    height={50}
+                  />
                 </div>
 
                 {/* Title */}
@@ -180,14 +189,21 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
                 </h2>
 
                 {/* Error message */}
-                {error && <div className="bg-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm">{error}</div>}
+                {error && (
+                  <div className="bg-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-6 text-sm">
+                    {error}
+                  </div>
+                )}
 
                 {/* Login Form */}
                 {view === "login" && (
                   <form onSubmit={handleLogin}>
                     <div className="space-y-4 mb-6">
                       <div>
-                        <label htmlFor="email" className="block text-sm font-medium mb-2">
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium mb-2"
+                        >
                           Email Address
                         </label>
                         <div className="relative">
@@ -206,7 +222,10 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
 
                       <div>
                         <div className="flex justify-between mb-2">
-                          <label htmlFor="password" className="block text-sm font-medium">
+                          <label
+                            htmlFor="password"
+                            className="block text-sm font-medium"
+                          >
                             Password
                           </label>
                           <button
@@ -255,7 +274,9 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
                           <div className="w-full border-t border-white/10"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                          <span className="px-2 bg-[#111827] text-gray-400">Or continue with</span>
+                          <span className="px-2 bg-[#111827] text-gray-400">
+                            Or continue with
+                          </span>
                         </div>
                       </div>
 
@@ -295,7 +316,10 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
                   <form onSubmit={handleSignup}>
                     <div className="space-y-4 mb-6">
                       <div>
-                        <label htmlFor="name" className="block text-sm font-medium mb-2">
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium mb-2"
+                        >
                           Full Name
                         </label>
                         <div className="relative">
@@ -313,7 +337,10 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
                       </div>
 
                       <div>
-                        <label htmlFor="signup-email" className="block text-sm font-medium mb-2">
+                        <label
+                          htmlFor="signup-email"
+                          className="block text-sm font-medium mb-2"
+                        >
                           Email Address
                         </label>
                         <div className="relative">
@@ -331,7 +358,10 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
                       </div>
 
                       <div>
-                        <label htmlFor="signup-password" className="block text-sm font-medium mb-2">
+                        <label
+                          htmlFor="signup-password"
+                          className="block text-sm font-medium mb-2"
+                        >
                           Password
                         </label>
                         <div className="relative">
@@ -346,7 +376,9 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
                           />
                           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                         </div>
-                        <p className="text-xs text-gray-400 mt-1">Must be at least 8 characters long</p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          Must be at least 8 characters long
+                        </p>
                       </div>
                     </div>
 
@@ -373,7 +405,9 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
                           <div className="w-full border-t border-white/10"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                          <span className="px-2 bg-[#111827] text-gray-400">Or continue with</span>
+                          <span className="px-2 bg-[#111827] text-gray-400">
+                            Or continue with
+                          </span>
                         </div>
                       </div>
 
@@ -413,11 +447,15 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
                   <form onSubmit={handleForgotPassword}>
                     <div className="mb-6">
                       <p className="text-gray-400 text-sm mb-6">
-                        Enter your email address and we'll send you a link to reset your password.
+                        Enter your email address and we'll send you a link to
+                        reset your password.
                       </p>
 
                       <div>
-                        <label htmlFor="reset-email" className="block text-sm font-medium mb-2">
+                        <label
+                          htmlFor="reset-email"
+                          className="block text-sm font-medium mb-2"
+                        >
                           Email Address
                         </label>
                         <div className="relative">
@@ -472,5 +510,5 @@ export function AuthModal({ isOpen, onClose, initialView = "login" }: AuthModalP
         </div>
       )}
     </AnimatePresence>
-  )
+  );
 }

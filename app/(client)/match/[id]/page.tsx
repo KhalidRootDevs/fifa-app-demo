@@ -6,10 +6,11 @@ interface MatchPageProps {
   };
 }
 
-export default function MatchPage({ params }: MatchPageProps) {
+export default async function MatchPage({ params }: MatchPageProps) {
+  const { id } = await params;
   return (
     <div className="container mx-auto px-4 py-8">
-      <MatchDetails matchId={params.id} />
+      <MatchDetails matchId={id} />
     </div>
   );
 }

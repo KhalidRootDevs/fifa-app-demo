@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { Star } from "lucide-react"
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { Star } from "lucide-react";
 
 const testimonials = [
   {
@@ -11,7 +11,7 @@ const testimonials = [
     role: "Football Fan",
     avatar: "/placeholder.svg?height=80&width=80",
     content:
-      "Hola Football has completely changed how I watch matches. The streaming quality is excellent, and I never miss a game from my favorite team anymore!",
+      "FIFA 2026 has completely changed how I watch matches. The streaming quality is excellent, and I never miss a game from my favorite team anymore!",
     rating: 5,
   },
   {
@@ -20,7 +20,7 @@ const testimonials = [
     role: "Premier League Enthusiast",
     avatar: "/placeholder.svg?height=80&width=80",
     content:
-      "I've tried many streaming services, but Hola Football offers the best value. The multi-device feature lets me watch on my TV and check stats on my tablet.",
+      "I've tried many streaming services, but FIFA 2026 offers the best value. The multi-device feature lets me watch on my TV and check stats on my tablet.",
     rating: 5,
   },
   {
@@ -32,7 +32,7 @@ const testimonials = [
       "The advanced statistics have helped me dominate my fantasy league. Being able to watch any match and get detailed player stats is a game-changer.",
     rating: 4,
   },
-]
+];
 
 export function Testimonials() {
   return (
@@ -40,7 +40,8 @@ export function Testimonials() {
       <div className="text-center max-w-3xl mx-auto mb-12">
         <h2 className="text-3xl font-bold mb-4">What Our Fans Say</h2>
         <p className="text-gray-400">
-          Join thousands of satisfied football fans who enjoy uninterrupted access to their favorite matches.
+          Join thousands of satisfied football fans who enjoy uninterrupted
+          access to their favorite matches.
         </p>
       </div>
 
@@ -71,7 +72,11 @@ export function Testimonials() {
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-4 h-4 ${i < testimonial.rating ? "text-yellow-500 fill-yellow-500" : "text-gray-500"}`}
+                  className={`w-4 h-4 ${
+                    i < testimonial.rating
+                      ? "text-yellow-500 fill-yellow-500"
+                      : "text-gray-500"
+                  }`}
                 />
               ))}
             </div>
@@ -81,5 +86,5 @@ export function Testimonials() {
         ))}
       </div>
     </div>
-  )
+  );
 }

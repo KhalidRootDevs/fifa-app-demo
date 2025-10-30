@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { CreditCard, Lock } from "lucide-react"
-import { PaymentCard } from "@/components/payment-card"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { CreditCard, Lock } from "lucide-react";
+import { PaymentCard } from "@/components/payment-card";
 
 interface CheckoutFormProps {
   plan: {
-    name: string
-    price: number
-    billingCycle: string
-  }
+    name: string;
+    price: number;
+    billingCycle: string;
+  };
 }
 
 export function CheckoutForm({ plan }: CheckoutFormProps) {
@@ -25,15 +25,17 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
     cardName: "",
     country: "United States",
     postalCode: "",
-  })
+  });
 
-  const [formStep, setFormStep] = useState(1)
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [isComplete, setIsComplete] = useState(false)
+  const [formStep, setFormStep] = useState(1);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    let formattedValue = value
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    let formattedValue = value;
 
     // Format card number with spaces
     if (name === "cardNumber") {
@@ -41,7 +43,7 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
         .replace(/\s/g, "")
         .replace(/(\d{4})/g, "$1 ")
         .trim()
-        .slice(0, 19)
+        .slice(0, 19);
     }
 
     // Format expiry date
@@ -49,53 +51,53 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
       formattedValue = value
         .replace(/\D/g, "")
         .replace(/(\d{2})(\d)/, "$1/$2")
-        .slice(0, 5)
+        .slice(0, 5);
     }
 
     // Format CVC
     if (name === "cardCvc") {
-      formattedValue = value.replace(/\D/g, "").slice(0, 3)
+      formattedValue = value.replace(/\D/g, "").slice(0, 3);
     }
 
     setFormData({
       ...formData,
       [name]: formattedValue,
-    })
-  }
+    });
+  };
 
   const nextStep = () => {
-    setFormStep(2)
-  }
+    setFormStep(2);
+  };
 
   const prevStep = () => {
-    setFormStep(1)
-  }
+    setFormStep(1);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsProcessing(true)
+    e.preventDefault();
+    setIsProcessing(true);
 
     // Simulate payment processing
     setTimeout(() => {
-      setIsProcessing(false)
-      setIsComplete(true)
-    }, 2000)
-  }
+      setIsProcessing(false);
+      setIsComplete(true);
+    }, 2000);
+  };
 
   // Determine card type based on first digits
   const getCardType = (number: string) => {
-    const firstDigit = number.charAt(0)
-    const firstTwoDigits = number.substring(0, 2)
-    const firstFourDigits = number.substring(0, 4)
+    const firstDigit = number.charAt(0);
+    const firstTwoDigits = number.substring(0, 2);
+    const firstFourDigits = number.substring(0, 4);
 
-    if (firstDigit === "4") return "visa"
-    if (firstTwoDigits >= "51" && firstTwoDigits <= "55") return "mastercard"
-    if (firstTwoDigits === "34" || firstTwoDigits === "37") return "amex"
-    if (firstFourDigits === "6011") return "discover"
-    return ""
-  }
+    if (firstDigit === "4") return "visa";
+    if (firstTwoDigits >= "51" && firstTwoDigits <= "55") return "mastercard";
+    if (firstTwoDigits === "34" || firstTwoDigits === "37") return "amex";
+    if (firstFourDigits === "6011") return "discover";
+    return "";
+  };
 
-  const cardType = getCardType(formData.cardNumber.replace(/\s/g, ""))
+  const cardType = getCardType(formData.cardNumber.replace(/\s/g, ""));
 
   if (isComplete) {
     return (
@@ -113,13 +115,18 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         </div>
         <h2 className="text-2xl font-bold mb-4">Payment Successful!</h2>
         <p className="text-gray-400 mb-6">
-          Thank you for subscribing to Hola Football {plan.name} plan. You now have access to all the features included
-          in your subscription.
+          Thank you for subscribing to FIFA 2026 {plan.name} plan. You now have
+          access to all the features included in your subscription.
         </p>
         <div className="mb-8">
           <div className="text-sm text-gray-400 mb-1">Transaction ID</div>
@@ -146,7 +153,7 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
           </motion.a>
         </div>
       </motion.div>
-    )
+    );
   }
 
   return (
@@ -154,15 +161,23 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
       {/* Form Steps */}
       <div className="flex border-b border-white/10">
         <div
-          className={`flex-1 py-4 text-center text-sm font-medium ${formStep === 1 ? "text-white" : "text-gray-400"}`}
+          className={`flex-1 py-4 text-center text-sm font-medium ${
+            formStep === 1 ? "text-white" : "text-gray-400"
+          }`}
         >
-          <span className="inline-block w-6 h-6 rounded-full mr-2 text-xs leading-6 text-center bg-white/10">1</span>
+          <span className="inline-block w-6 h-6 rounded-full mr-2 text-xs leading-6 text-center bg-white/10">
+            1
+          </span>
           Account Details
         </div>
         <div
-          className={`flex-1 py-4 text-center text-sm font-medium ${formStep === 2 ? "text-white" : "text-gray-400"}`}
+          className={`flex-1 py-4 text-center text-sm font-medium ${
+            formStep === 2 ? "text-white" : "text-gray-400"
+          }`}
         >
-          <span className="inline-block w-6 h-6 rounded-full mr-2 text-xs leading-6 text-center bg-white/10">2</span>
+          <span className="inline-block w-6 h-6 rounded-full mr-2 text-xs leading-6 text-center bg-white/10">
+            2
+          </span>
           Payment Details
         </div>
       </div>
@@ -179,7 +194,10 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
 
             <div className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium mb-2"
+                >
                   Full Name
                 </label>
                 <input
@@ -195,7 +213,10 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium mb-2"
+                >
                   Email Address
                 </label>
                 <input
@@ -211,7 +232,10 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
               </div>
 
               <div>
-                <label htmlFor="country" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium mb-2"
+                >
                   Country
                 </label>
                 <select
@@ -236,7 +260,10 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
               </div>
 
               <div>
-                <label htmlFor="postalCode" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="postalCode"
+                  className="block text-sm font-medium mb-2"
+                >
                   Postal Code
                 </label>
                 <input
@@ -285,7 +312,10 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
 
             <div className="space-y-4">
               <div>
-                <label htmlFor="cardName" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="cardName"
+                  className="block text-sm font-medium mb-2"
+                >
                   Cardholder Name
                 </label>
                 <input
@@ -301,7 +331,10 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
               </div>
 
               <div>
-                <label htmlFor="cardNumber" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="cardNumber"
+                  className="block text-sm font-medium mb-2"
+                >
                   Card Number
                 </label>
                 <div className="relative">
@@ -323,7 +356,10 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="cardExpiry" className="block text-sm font-medium mb-2">
+                  <label
+                    htmlFor="cardExpiry"
+                    className="block text-sm font-medium mb-2"
+                  >
                     Expiry Date
                   </label>
                   <input
@@ -338,7 +374,10 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
                   />
                 </div>
                 <div>
-                  <label htmlFor="cardCvc" className="block text-sm font-medium mb-2">
+                  <label
+                    htmlFor="cardCvc"
+                    className="block text-sm font-medium mb-2"
+                  >
                     CVC
                   </label>
                   <input
@@ -358,7 +397,8 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
             <div className="flex items-center mt-6 mb-8">
               <Lock className="w-4 h-4 text-gray-400 mr-2" />
               <span className="text-sm text-gray-400">
-                Your payment information is secure. We use encryption to protect your data.
+                Your payment information is secure. We use encryption to protect
+                your data.
               </span>
             </div>
 
@@ -395,5 +435,5 @@ export function CheckoutForm({ plan }: CheckoutFormProps) {
         )}
       </form>
     </div>
-  )
+  );
 }
