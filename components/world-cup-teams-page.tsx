@@ -1,195 +1,42 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { Search, X, Globe, Trophy, Users, Flag } from "lucide-react"
-
-// World Cup teams data
-const worldCupTeams = [
-  {
-    id: "brazil",
-    name: "Brazil",
-    flag: "/flags/brazil.svg",
-    region: "South America",
-    group: "A",
-    fifaRanking: 1,
-    coach: "Tite",
-    keyPlayers: ["Neymar Jr.", "Vinicius Jr.", "Casemiro"],
-    worldCupHistory: "5-time winners",
-    qualification: "CONMEBOL",
-  },
-  {
-    id: "argentina",
-    name: "Argentina",
-    flag: "/flags/argentina.svg",
-    region: "South America",
-    group: "B",
-    fifaRanking: 2,
-    coach: "Lionel Scaloni",
-    keyPlayers: ["Lionel Messi", "Angel Di Maria", "Lautaro Martinez"],
-    worldCupHistory: "3-time winners",
-    qualification: "CONMEBOL",
-  },
-  {
-    id: "france",
-    name: "France",
-    flag: "/flags/france.svg",
-    region: "Europe",
-    group: "C",
-    fifaRanking: 3,
-    coach: "Didier Deschamps",
-    keyPlayers: ["Kylian Mbappe", "Antoine Griezmann", "N'Golo Kante"],
-    worldCupHistory: "2-time winners",
-    qualification: "UEFA",
-  },
-  {
-    id: "england",
-    name: "England",
-    flag: "/flags/england.svg",
-    region: "Europe",
-    group: "C",
-    fifaRanking: 4,
-    coach: "Gareth Southgate",
-    keyPlayers: ["Harry Kane", "Jude Bellingham", "Phil Foden"],
-    worldCupHistory: "1-time winner",
-    qualification: "UEFA",
-  },
-  {
-    id: "spain",
-    name: "Spain",
-    flag: "/flags/spain.svg",
-    region: "Europe",
-    group: "B",
-    fifaRanking: 5,
-    coach: "Luis Enrique",
-    keyPlayers: ["Pedri", "Gavi", "Rodri"],
-    worldCupHistory: "1-time winner",
-    qualification: "UEFA",
-  },
-  {
-    id: "netherlands",
-    name: "Netherlands",
-    flag: "/flags/netherlands.svg",
-    region: "Europe",
-    group: "D",
-    fifaRanking: 6,
-    coach: "Louis van Gaal",
-    keyPlayers: ["Virgil van Dijk", "Frenkie de Jong", "Memphis Depay"],
-    worldCupHistory: "3-time runner-up",
-    qualification: "UEFA",
-  },
-  {
-    id: "portugal",
-    name: "Portugal",
-    flag: "/flags/portugal.svg",
-    region: "Europe",
-    group: "D",
-    fifaRanking: 7,
-    coach: "Fernando Santos",
-    keyPlayers: ["Cristiano Ronaldo", "Bruno Fernandes", "Joao Felix"],
-    worldCupHistory: "Best: 3rd place",
-    qualification: "UEFA",
-  },
-  {
-    id: "germany",
-    name: "Germany",
-    flag: "/flags/germany.svg",
-    region: "Europe",
-    group: "A",
-    fifaRanking: 8,
-    coach: "Hansi Flick",
-    keyPlayers: ["Joshua Kimmich", "Jamal Musiala", "Kai Havertz"],
-    worldCupHistory: "4-time winners",
-    qualification: "UEFA",
-  },
-  {
-    id: "usa",
-    name: "United States",
-    flag: "/flags/usa.svg",
-    region: "North America",
-    group: "D",
-    fifaRanking: 15,
-    coach: "Gregg Berhalter",
-    keyPlayers: ["Christian Pulisic", "Weston McKennie", "Tyler Adams"],
-    worldCupHistory: "Best: 3rd place (1930)",
-    qualification: "Host Nation",
-  },
-  {
-    id: "canada",
-    name: "Canada",
-    flag: "/flags/canada.svg",
-    region: "North America",
-    group: "D",
-    fifaRanking: 38,
-    coach: "John Herdman",
-    keyPlayers: ["Alphonso Davies", "Jonathan David", "Tajon Buchanan"],
-    worldCupHistory: "Best: Group Stage",
-    qualification: "Host Nation",
-  },
-  {
-    id: "mexico",
-    name: "Mexico",
-    flag: "/flags/mexico.svg",
-    region: "North America",
-    group: "C",
-    fifaRanking: 12,
-    coach: "Tata Martino",
-    keyPlayers: ["Hirving Lozano", "Raul Jimenez", "Hector Herrera"],
-    worldCupHistory: "Best: Quarter-finals",
-    qualification: "Host Nation",
-  },
-  {
-    id: "japan",
-    name: "Japan",
-    flag: "/flags/japan.svg",
-    region: "Asia",
-    group: "B",
-    fifaRanking: 20,
-    coach: "Hajime Moriyasu",
-    keyPlayers: ["Takehiro Tomiyasu", "Yuya Osako", "Takumi Minamino"],
-    worldCupHistory: "Best: Round of 16",
-    qualification: "AFC",
-  },
-]
-
-// Region filters
-const regions = [
-  { id: "all", name: "All Regions" },
-  { id: "europe", name: "Europe" },
-  { id: "south-america", name: "South America" },
-  { id: "north-america", name: "North America" },
-  { id: "africa", name: "Africa" },
-  { id: "asia", name: "Asia" },
-  { id: "oceania", name: "Oceania" },
-]
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Search, X, Globe, Trophy, Users, Flag } from "lucide-react";
+import { regions, worldCupTeams } from "@/lib/database/teams";
 
 export function WorldCupTeamsPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedRegion, setSelectedRegion] = useState("all")
-  const [selectedGroup, setSelectedGroup] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("all");
+  const [selectedGroup, setSelectedGroup] = useState("all");
 
   // Filter teams based on search query, region, and group
   const filteredTeams = worldCupTeams.filter((team) => {
     // Search filter
-    const searchLower = searchQuery.toLowerCase()
+    const searchLower = searchQuery.toLowerCase();
     const matchesSearch =
       searchQuery === "" ||
       team.name.toLowerCase().includes(searchLower) ||
       team.coach.toLowerCase().includes(searchLower) ||
-      team.keyPlayers.some((player) => player.toLowerCase().includes(searchLower))
+      team.keyPlayers.some((player) =>
+        player.toLowerCase().includes(searchLower),
+      );
 
     // Region filter
-    const matchesRegion = selectedRegion === "all" || team.region.toLowerCase().replace(/\s+/g, "-") === selectedRegion
+    const matchesRegion =
+      selectedRegion === "all" ||
+      team.region.toLowerCase().replace(/\s+/g, "-") === selectedRegion;
 
     // Group filter
-    const matchesGroup = selectedGroup === "all" || team.group === selectedGroup
+    const matchesGroup =
+      selectedGroup === "all" || team.group === selectedGroup;
 
-    return matchesSearch && matchesRegion && matchesGroup
-  })
+    return matchesSearch && matchesRegion && matchesGroup;
+  });
 
-  const groups = ["all", "A", "B", "C", "D", "E", "F"]
+  const groups = ["all", "A", "B", "C", "D", "E", "F"];
 
   return (
     <div className="space-y-6">
@@ -224,7 +71,11 @@ export function WorldCupTeamsPage() {
               className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-3 text-sm text-white focus:outline-none focus:border-white/40"
             >
               {regions.map((region) => (
-                <option key={region.id} value={region.id} className="bg-gray-800">
+                <option
+                  key={region.id}
+                  value={region.id}
+                  className="bg-gray-800"
+                >
                   {region.name}
                 </option>
               ))}
@@ -274,7 +125,9 @@ export function WorldCupTeamsPage() {
                     </div>
                     <div className="text-right">
                       <div className="text-sm text-gray-400">Group</div>
-                      <div className="text-xl font-bold text-yellow-500">{team.group}</div>
+                      <div className="text-xl font-bold text-yellow-500">
+                        {team.group}
+                      </div>
                     </div>
                   </div>
 
@@ -299,7 +152,9 @@ export function WorldCupTeamsPage() {
                     </div>
 
                     <div>
-                      <span className="text-gray-400 block mb-1">Key Players:</span>
+                      <span className="text-gray-400 block mb-1">
+                        Key Players:
+                      </span>
                       <div className="text-xs space-y-1">
                         {team.keyPlayers.slice(0, 2).map((player, index) => (
                           <div key={index} className="text-white font-medium">
@@ -328,13 +183,14 @@ export function WorldCupTeamsPage() {
           </div>
           <h3 className="text-xl font-medium mb-2">No teams found</h3>
           <p className="text-gray-400 mb-6">
-            We couldn't find any teams matching your search criteria. Try adjusting your filters.
+            We couldn't find any teams matching your search criteria. Try
+            adjusting your filters.
           </p>
           <button
             onClick={() => {
-              setSearchQuery("")
-              setSelectedRegion("all")
-              setSelectedGroup("all")
+              setSearchQuery("");
+              setSelectedRegion("all");
+              setSelectedGroup("all");
             }}
             className="gradient-bg text-white px-6 py-2 rounded-lg font-medium"
           >
@@ -370,5 +226,5 @@ export function WorldCupTeamsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,167 +1,111 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { Trophy, Flag, Users, Calendar, MapPin } from "lucide-react"
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Trophy, Flag, Users, Calendar, MapPin } from "lucide-react";
+import { groups } from "@/lib/database/groups";
 
-const worldCupGroups = [
-  {
-    id: "A",
-    teams: [
-      { name: "Brazil", flag: "/flags/brazil.svg", points: 9, played: 3, wins: 3, draws: 0, losses: 0, gf: 8, ga: 2 },
-      { name: "Germany", flag: "/flags/germany.svg", points: 6, played: 3, wins: 2, draws: 0, losses: 1, gf: 5, ga: 3 },
-      { name: "Morocco", flag: "/flags/morocco.svg", points: 3, played: 3, wins: 1, draws: 0, losses: 2, gf: 3, ga: 5 },
-      {
-        name: "Australia",
-        flag: "/flags/australia.svg",
-        points: 0,
-        played: 3,
-        wins: 0,
-        draws: 0,
-        losses: 3,
-        gf: 1,
-        ga: 7,
-      },
-    ],
-  },
-  {
-    id: "B",
-    teams: [
-      {
-        name: "Argentina",
-        flag: "/flags/argentina.svg",
-        points: 7,
-        played: 3,
-        wins: 2,
-        draws: 1,
-        losses: 0,
-        gf: 6,
-        ga: 2,
-      },
-      { name: "Spain", flag: "/flags/spain.svg", points: 4, played: 3, wins: 1, draws: 1, losses: 1, gf: 4, ga: 4 },
-      { name: "Japan", flag: "/flags/japan.svg", points: 4, played: 3, wins: 1, draws: 1, losses: 1, gf: 3, ga: 4 },
-      { name: "Croatia", flag: "/flags/croatia.svg", points: 1, played: 3, wins: 0, draws: 1, losses: 2, gf: 2, ga: 5 },
-    ],
-  },
-  {
-    id: "C",
-    teams: [
-      { name: "France", flag: "/flags/france.svg", points: 9, played: 3, wins: 3, draws: 0, losses: 0, gf: 7, ga: 1 },
-      { name: "England", flag: "/flags/england.svg", points: 6, played: 3, wins: 2, draws: 0, losses: 1, gf: 6, ga: 3 },
-      { name: "Mexico", flag: "/flags/mexico.svg", points: 3, played: 3, wins: 1, draws: 0, losses: 2, gf: 4, ga: 6 },
-      { name: "Poland", flag: "/flags/poland.svg", points: 0, played: 3, wins: 0, draws: 0, losses: 3, gf: 2, ga: 9 },
-    ],
-  },
-  {
-    id: "D",
-    teams: [
-      {
-        name: "Portugal",
-        flag: "/flags/portugal.svg",
-        points: 6,
-        played: 3,
-        wins: 2,
-        draws: 0,
-        losses: 1,
-        gf: 5,
-        ga: 3,
-      },
-
-      {
-        name: "Portugal",
-        flag: "/flags/portugal.svg",
-        points: 6,
-        played: 3,
-        wins: 2,
-        draws: 0,
-        losses: 1,
-        gf: 5,
-        ga: 3,
-      },
-      {
-        name: "Netherlands",
-        flag: "/flags/netherlands.svg",
-        points: 6,
-        played: 3,
-        wins: 2,
-        draws: 0,
-        losses: 1,
-        gf: 4,
-        ga: 2,
-      },
-      { name: "USA", flag: "/flags/usa.svg", points: 3, played: 3, wins: 1, draws: 0, losses: 2, gf: 3, ga: 5 },
-      { name: "Canada", flag: "/flags/canada.svg", points: 3, played: 3, wins: 1, draws: 0, losses: 2, gf: 2, ga: 4 },
-    ],
-  },
-  {
-    id: "E",
-    teams: [
-      { name: "Belgium", flag: "/flags/belgium.svg", points: 7, played: 3, wins: 2, draws: 1, losses: 0, gf: 5, ga: 2 },
-      { name: "Italy", flag: "/flags/italy.svg", points: 5, played: 3, wins: 1, draws: 2, losses: 0, gf: 3, ga: 2 },
-      {
-        name: "Colombia",
-        flag: "/flags/colombia.svg",
-        points: 4,
-        played: 3,
-        wins: 1,
-        draws: 1,
-        losses: 1,
-        gf: 4,
-        ga: 4,
-      },
-      { name: "Uruguay", flag: "/flags/uruguay.svg", points: 0, played: 3, wins: 0, draws: 0, losses: 3, gf: 1, ga: 5 },
-    ],
-  },
-  {
-    id: "F",
-    teams: [
-      { name: "Denmark", flag: "/flags/denmark.svg", points: 6, played: 3, wins: 2, draws: 0, losses: 1, gf: 4, ga: 2 },
-      { name: "Serbia", flag: "/flags/serbia.svg", points: 4, played: 3, wins: 1, draws: 1, losses: 1, gf: 3, ga: 3 },
-      {
-        name: "Switzerland",
-        flag: "/flags/switzerland.svg",
-        points: 4,
-        played: 3,
-        wins: 1,
-        draws: 1,
-        losses: 1,
-        gf: 2,
-        ga: 2,
-      },
-      { name: "Ecuador", flag: "/flags/ecuador.svg", points: 2, played: 3, wins: 0, draws: 2, losses: 1, gf: 2, ga: 4 },
-    ],
-  },
-]
+// Convert groups object to array format for the component
+const groupArray = Object.entries(groups).map(([id, teams]) => ({
+  id,
+  teams: teams.map((team) => ({
+    name: team.team,
+    flag: team.flag,
+    points: team.points,
+    played: team.played,
+    wins: team.won,
+    draws: team.drawn,
+    losses: team.lost,
+    gf: team.gf,
+    ga: team.ga,
+    gd: team.gd,
+  })),
+}));
 
 export function WorldCupGroupsPage() {
-  const [selectedGroup, setSelectedGroup] = useState("A")
+  const [selectedGroup, setSelectedGroup] = useState("A");
 
   const getPositionColor = (position: number) => {
     switch (position) {
       case 1:
       case 2:
-        return "bg-green-500/20 text-green-400 border-green-500/30"
+        return "bg-green-500/20 text-green-400 border-green-500/30";
       case 3:
-        return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+        return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
       case 4:
-        return "bg-red-500/20 text-red-400 border-red-500/30"
+        return "bg-red-500/20 text-red-400 border-red-500/30";
       default:
-        return "bg-gray-500/20 text-gray-400 border-gray-500/30"
+        return "bg-gray-500/20 text-gray-400 border-gray-500/30";
     }
-  }
+  };
+
+  const getFlagImageSrc = (flagEmoji: string, teamName: string) => {
+    if (flagEmoji === "❓") return "/flags/tbd.svg";
+    if (flagEmoji === "🏴󠁧󠁢󠁥󠁮󠁧󠁿") return "/flags/england.svg";
+    if (flagEmoji === "🏴󠁧󠁢󠁳󠁣󠁴󠁿") return "/flags/scotland.svg";
+
+    // Map common flag emojis to flag images
+    const flagMap: Record<string, string> = {
+      "🇲🇽": "/flags/mexico.svg",
+      "🇿🇦": "/flags/south-africa.svg",
+      "🇰🇷": "/flags/south-korea.svg",
+      "🇨🇦": "/flags/canada.svg",
+      "🇶🇦": "/flags/qatar.svg",
+      "🇨🇭": "/flags/switzerland.svg",
+      "🇧🇷": "/flags/brazil.svg",
+      "🇲🇦": "/flags/morocco.svg",
+      "🇭🇹": "/flags/haiti.svg",
+      "🇺🇸": "/flags/usa.svg",
+      "🇵🇾": "/flags/paraguay.svg",
+      "🇦🇺": "/flags/australia.svg",
+      "🇩🇪": "/flags/germany.svg",
+      "🇨🇼": "/flags/curacao.svg",
+      "🇨🇮": "/flags/ivory-coast.svg",
+      "🇪🇨": "/flags/ecuador.svg",
+      "🇳🇱": "/flags/netherlands.svg",
+      "🇯🇵": "/flags/japan.svg",
+      "🇹🇳": "/flags/tunisia.svg",
+      "🇧🇪": "/flags/belgium.svg",
+      "🇪🇬": "/flags/egypt.svg",
+      "🇮🇷": "/flags/iran.svg",
+      "🇳🇿": "/flags/new-zealand.svg",
+      "🇪🇸": "/flags/spain.svg",
+      "🇨🇻": "/flags/cape-verde.svg",
+      "🇸🇦": "/flags/saudi-arabia.svg",
+      "🇺🇾": "/flags/uruguay.svg",
+      "🇫🇷": "/flags/france.svg",
+      "🇸🇳": "/flags/senegal.svg",
+      "🇳🇴": "/flags/norway.svg",
+      "🇦🇷": "/flags/argentina.svg",
+      "🇩🇿": "/flags/algeria.svg",
+      "🇦🇹": "/flags/austria.svg",
+      "🇯🇴": "/flags/jordan.svg",
+      "🇵🇹": "/flags/portugal.svg",
+      "🇺🇿": "/flags/uzbekistan.svg",
+      "🇨🇴": "/flags/colombia.svg",
+      "🇭🇷": "/flags/croatia.svg",
+      "🇬🇭": "/flags/ghana.svg",
+      "🇵🇦": "/flags/panama.svg",
+    };
+
+    return (
+      flagMap[flagEmoji] ||
+      `/flags/${teamName.toLowerCase().replace(/\s+/g, "-")}.svg`
+    );
+  };
 
   return (
     <div className="space-y-8">
       {/* Group Selector */}
       <div className="glass-card rounded-xl overflow-hidden">
         <div className="flex flex-wrap">
-          {worldCupGroups.map((group) => (
+          {groupArray.map((group) => (
             <button
               key={group.id}
               onClick={() => setSelectedGroup(group.id)}
-              className={`flex-1 min-w-[120px] px-6 py-4 font-medium text-sm transition-colors border-b-2 ${
+              className={`flex-1 min-w-[80px] px-3 py-3 font-medium text-sm transition-colors border-b-2 ${
                 selectedGroup === group.id
                   ? "text-white border-red-500 bg-white/10"
                   : "text-gray-400 border-transparent hover:text-white hover:bg-white/5"
@@ -174,7 +118,7 @@ export function WorldCupGroupsPage() {
       </div>
 
       {/* Selected Group Details */}
-      {worldCupGroups
+      {groupArray
         .filter((group) => group.id === selectedGroup)
         .map((group) => (
           <motion.div
@@ -200,7 +144,9 @@ export function WorldCupGroupsPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-300">Qualifies to Round of 16</span>
+                  <span className="text-gray-300">
+                    Qualifies to Round of 16
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
@@ -231,44 +177,61 @@ export function WorldCupGroupsPage() {
                   <div className="col-span-1">L</div>
                   <div className="col-span-1">GF</div>
                   <div className="col-span-1">GA</div>
+                  <div className="col-span-1">GD</div>
                   <div className="col-span-1">Pts</div>
                 </div>
 
                 {/* Team Rows */}
                 <div className="space-y-2">
                   {group.teams.map((team, index) => {
-                    const position = index + 1
+                    const position = index + 1;
                     return (
-                      <Link key={team.name} href={`/teams/${team.name.toLowerCase()}`}>
+                      <Link
+                        key={team.name}
+                        href={`/teams/${team.name.toLowerCase().replace(/\s+/g, "-")}`}
+                      >
                         <motion.div
                           className={`grid grid-cols-12 gap-2 items-center p-4 rounded-lg border transition-all hover:bg-white/5 ${getPositionColor(
                             position,
                           )}`}
                           whileHover={{ x: 5 }}
                         >
-                          <div className="col-span-1 text-center font-bold">{position}</div>
+                          <div className="col-span-1 text-center font-bold">
+                            {position}
+                          </div>
                           <div className="col-span-4 flex items-center gap-3">
                             <div className="w-8 h-8 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
-                              <Image
-                                src={team.flag || "/placeholder.svg"}
-                                alt={team.name}
-                                width={24}
-                                height={24}
-                                className="w-6 h-6 object-cover rounded-full"
-                              />
+                              <span className="text-xl">{team.flag}</span>
                             </div>
                             <span className="font-medium">{team.name}</span>
                           </div>
-                          <div className="col-span-1 text-center">{team.played}</div>
-                          <div className="col-span-1 text-center text-green-400">{team.wins}</div>
-                          <div className="col-span-1 text-center text-yellow-400">{team.draws}</div>
-                          <div className="col-span-1 text-center text-red-400">{team.losses}</div>
-                          <div className="col-span-1 text-center">{team.gf}</div>
-                          <div className="col-span-1 text-center">{team.ga}</div>
-                          <div className="col-span-1 text-center font-bold text-yellow-500">{team.points}</div>
+                          <div className="col-span-1 text-center">
+                            {team.played}
+                          </div>
+                          <div className="col-span-1 text-center text-green-400">
+                            {team.wins}
+                          </div>
+                          <div className="col-span-1 text-center text-yellow-400">
+                            {team.draws}
+                          </div>
+                          <div className="col-span-1 text-center text-red-400">
+                            {team.losses}
+                          </div>
+                          <div className="col-span-1 text-center">
+                            {team.gf}
+                          </div>
+                          <div className="col-span-1 text-center">
+                            {team.ga}
+                          </div>
+                          <div className="col-span-1 text-center">
+                            {team.gd > 0 ? `+${team.gd}` : team.gd}
+                          </div>
+                          <div className="col-span-1 text-center font-bold text-yellow-500">
+                            {team.points}
+                          </div>
                         </motion.div>
                       </Link>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -284,15 +247,21 @@ export function WorldCupGroupsPage() {
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-400">Total Goals:</span>
-                    <span className="font-medium">{group.teams.reduce((sum, team) => sum + team.gf, 0)}</span>
+                    <span className="font-medium">
+                      {group.teams.reduce((sum, team) => sum + team.gf, 0)}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-400">Matches Played:</span>
-                    <span className="font-medium">{group.teams[0].played * 2}</span>
+                    <span className="font-medium">
+                      {group.teams[0].played * 2}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-400">Matches Remaining:</span>
-                    <span className="font-medium">{6 - group.teams[0].played * 2}</span>
+                    <span className="font-medium">
+                      {6 - group.teams[0].played * 2}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -300,28 +269,26 @@ export function WorldCupGroupsPage() {
               <div className="glass-card rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <Calendar className="w-5 h-5 text-green-500" />
-                  <h4 className="font-semibold">Next Matches</h4>
+                  <h4 className="font-semibold">Group Stage Dates</h4>
                 </div>
                 <div className="space-y-2 text-sm">
-                  <div className="text-gray-400">June 15, 2026</div>
-                  <div className="font-medium">
-                    {group.teams[0].name} vs {group.teams[2].name}
-                  </div>
-                  <div className="font-medium">
-                    {group.teams[1].name} vs {group.teams[3].name}
-                  </div>
+                  <div className="text-gray-400">June 11-26, 2026</div>
+                  <div className="font-medium">All group matches</div>
+                  <div className="text-gray-400">June 28-29, 2026</div>
+                  <div className="font-medium">Round of 16 begins</div>
                 </div>
               </div>
 
               <div className="glass-card rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <MapPin className="w-5 h-5 text-red-500" />
-                  <h4 className="font-semibold">Host Venues</h4>
+                  <h4 className="font-semibold">Possible Venues</h4>
                 </div>
                 <div className="space-y-2 text-sm">
-                  <div className="text-gray-400">Primary Stadiums:</div>
+                  <div className="text-gray-400">Group Stage Venues:</div>
                   <div className="font-medium">MetLife Stadium</div>
                   <div className="font-medium">SoFi Stadium</div>
+                  <div className="font-medium">AT&T Stadium</div>
                 </div>
               </div>
             </div>
@@ -331,27 +298,37 @@ export function WorldCupGroupsPage() {
       {/* All Groups Overview */}
       <div className="glass-card rounded-xl p-6">
         <h3 className="text-xl font-bold mb-6">All Groups Overview</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {worldCupGroups.map((group) => (
-            <div key={group.id} className="bg-white/5 rounded-lg p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {groupArray.map((group) => (
+            <div
+              key={group.id}
+              className="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors"
+            >
               <h4 className="font-semibold mb-3 flex items-center gap-2">
                 <Flag className="w-4 h-4 text-yellow-500" />
                 Group {group.id}
               </h4>
               <div className="space-y-2">
-                {group.teams.slice(0, 2).map((team, index) => (
-                  <div key={team.name} className="flex items-center justify-between text-sm">
+                {group.teams.map((team, index) => (
+                  <div
+                    key={team.name}
+                    className="flex items-center justify-between text-sm"
+                  >
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded-full overflow-hidden">
-                        <Image
-                          src={team.flag || "/placeholder.svg"}
-                          alt={team.name}
-                          width={16}
-                          height={16}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <span className={index === 0 ? "text-green-400" : "text-green-300"}>{team.name}</span>
+                      <span className="text-base">{team.flag}</span>
+                      <span
+                        className={
+                          index === 0
+                            ? "text-green-400 font-medium"
+                            : index === 1
+                              ? "text-green-300"
+                              : index === 2
+                                ? "text-yellow-400"
+                                : "text-red-400"
+                        }
+                      >
+                        {team.name}
+                      </span>
                     </div>
                     <span className="font-medium">{team.points} pts</span>
                   </div>
@@ -362,5 +339,5 @@ export function WorldCupGroupsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

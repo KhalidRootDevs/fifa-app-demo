@@ -15,7 +15,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalView, setAuthModalView] = useState<"login" | "signup">(
-    "login"
+    "login",
   );
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,7 +57,7 @@ export function Header() {
     if (searchQuery.trim()) {
       // Redirect to search results page
       window.location.href = `/matches?search=${encodeURIComponent(
-        searchQuery
+        searchQuery,
       )}`;
     }
   };
@@ -80,7 +80,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all backdrop-blur-sm duration-300 ${
           isScrolled ? "glass-effect py-2" : "bg-transparent py-4"
         }`}
       >

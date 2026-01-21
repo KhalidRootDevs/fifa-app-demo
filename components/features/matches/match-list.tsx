@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Clock, Eye, MapPin, Play, Flame, Trophy } from "lucide-react";
+import { Clock, MapPin, Play, Flame, Trophy, Users } from "lucide-react";
 
-// Sample matches data
+// Updated matches data with venue capacity
 const matches = [
   {
     id: 1,
@@ -28,9 +28,9 @@ const matches = [
     minute: 67,
     venue: "MetLife Stadium",
     city: "New York, USA",
-    viewers: "2.1M",
+    capacity: "82,500",
     isHot: true,
-    date: new Date("2024-12-15T20:00:00"),
+    date: new Date("2026-12-15T20:00:00"),
   },
   {
     id: 2,
@@ -53,9 +53,9 @@ const matches = [
     minute: 78,
     venue: "SoFi Stadium",
     city: "Los Angeles, USA",
-    viewers: "1.8M",
+    capacity: "70,240",
     isHot: true,
-    date: new Date("2024-12-15T18:00:00"),
+    date: new Date("2026-12-15T18:00:00"),
   },
   {
     id: 3,
@@ -75,8 +75,8 @@ const matches = [
     status: "upcoming",
     venue: "Estadio Azteca",
     city: "Mexico City, Mexico",
-    viewers: "850K",
-    date: new Date("2024-12-16T16:00:00"),
+    capacity: "87,523",
+    date: new Date("2026-12-16T16:00:00"),
   },
   {
     id: 4,
@@ -96,8 +96,8 @@ const matches = [
     status: "upcoming",
     venue: "AT&T Stadium",
     city: "Dallas, USA",
-    viewers: "1.1M",
-    date: new Date("2024-12-16T19:00:00"),
+    capacity: "80,000",
+    date: new Date("2026-12-16T19:00:00"),
   },
   {
     id: 5,
@@ -120,9 +120,9 @@ const matches = [
     minute: 89,
     venue: "Wembley Stadium",
     city: "London, England",
-    viewers: "3.2M",
+    capacity: "90,000",
     isHot: true,
-    date: new Date("2024-12-15T21:00:00"),
+    date: new Date("2026-12-15T21:00:00"),
   },
   {
     id: 6,
@@ -142,8 +142,53 @@ const matches = [
     status: "upcoming",
     venue: "Rose Bowl",
     city: "Pasadena, USA",
-    viewers: "650K",
-    date: new Date("2024-12-17T14:00:00"),
+    capacity: "92,542",
+    date: new Date("2026-12-17T14:00:00"),
+  },
+  {
+    id: 7,
+    phase: "Round of 16",
+    homeTeam: {
+      name: "USA",
+      code: "USA",
+      flag: "/flags/usa.svg",
+      score: 2,
+      fifaRanking: 13,
+    },
+    awayTeam: {
+      name: "Mexico",
+      code: "MEX",
+      flag: "/flags/mexico.svg",
+      score: 1,
+      fifaRanking: 14,
+    },
+    status: "live",
+    minute: 45,
+    venue: "Mercedes-Benz Stadium",
+    city: "Atlanta, USA",
+    capacity: "71,000",
+    date: new Date("2026-12-14T19:00:00"),
+  },
+  {
+    id: 8,
+    phase: "Third Place",
+    homeTeam: {
+      name: "Croatia",
+      code: "CRO",
+      flag: "/flags/croatia.svg",
+      fifaRanking: 15,
+    },
+    awayTeam: {
+      name: "Switzerland",
+      code: "SUI",
+      flag: "/flags/switzerland.svg",
+      fifaRanking: 16,
+    },
+    status: "upcoming",
+    venue: "Levi's Stadium",
+    city: "Santa Clara, USA",
+    capacity: "68,500",
+    date: new Date("2026-12-18T15:00:00"),
   },
 ];
 
@@ -169,7 +214,7 @@ export function MatchList({ compact = false }: MatchListProps) {
     const matchDate = new Date(
       date.getFullYear(),
       date.getMonth(),
-      date.getDate()
+      date.getDate(),
     );
 
     if (matchDate.getTime() === today.getTime()) {
@@ -196,7 +241,7 @@ export function MatchList({ compact = false }: MatchListProps) {
   const upcomingCount = matches.filter((m) => m.status === "upcoming").length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mb-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Trophy className="w-6 h-6 text-yellow-500" />
@@ -250,7 +295,7 @@ export function MatchList({ compact = false }: MatchListProps) {
       {/* Match List */}
       <div className="glass-card rounded-xl overflow-hidden">
         <div className="divide-y divide-white/10">
-          {displayMatches.map((match, index) => (
+          {displayMatches.map((match) => (
             <div
               key={match.id}
               className="p-4 hover:bg-white/5 transition-all duration-300 group"
@@ -265,10 +310,14 @@ export function MatchList({ compact = false }: MatchListProps) {
                         match.phase === "Group Stage"
                           ? "bg-green-500/20 text-green-400"
                           : match.phase === "Quarter Final"
-                          ? "bg-yellow-500/20 text-yellow-400"
-                          : match.phase === "Semi Final"
-                          ? "bg-orange-500/20 text-orange-400"
-                          : "bg-purple-500/20 text-purple-400"
+                            ? "bg-yellow-500/20 text-yellow-400"
+                            : match.phase === "Semi Final"
+                              ? "bg-orange-500/20 text-orange-400"
+                              : match.phase === "Round of 16"
+                                ? "bg-blue-500/20 text-blue-400"
+                                : match.phase === "Third Place"
+                                  ? "bg-pink-500/20 text-pink-400"
+                                  : "bg-purple-500/20 text-purple-400"
                       }`}
                     >
                       {match.phase}
@@ -388,20 +437,15 @@ export function MatchList({ compact = false }: MatchListProps) {
                     )}
                   </div>
 
-                  {/* Venue Info */}
-                  <div className="text-right min-w-[140px] hidden md:block">
+                  {/* Venue Info with Capacity */}
+                  <div className="text-right min-w-[160px] hidden md:block">
                     <div className="flex items-center justify-end gap-1 text-xs text-gray-400 mb-1">
                       <MapPin className="w-3 h-3" />
                       <span className="truncate">{match.venue}</span>
                     </div>
-                    <div className="text-xs text-gray-500">{match.city}</div>
-                  </div>
-
-                  {/* Viewers */}
-                  <div className="text-right min-w-[80px] hidden lg:block">
-                    <div className="flex items-center justify-end gap-1 text-xs text-gray-400">
-                      <Eye className="w-3 h-3" />
-                      <span>{match.viewers}</span>
+                    <div className="flex items-center justify-end gap-1 text-xs text-gray-500">
+                      <Users className="w-3 h-3" />
+                      <span>Capacity: {match.capacity}</span>
                     </div>
                   </div>
 

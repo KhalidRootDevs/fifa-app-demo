@@ -1,10 +1,10 @@
 import { WorldCupCountdown } from "@/components/world-cup-countdown";
-import { BannerAds } from "@/components/banner-ads";
-import { FeaturedMatches } from "@/components/featured-matches";
-import { MatchList } from "@/components/match-list";
+import { FeaturedMatches } from "@/components/features/matches/featured-matches";
+import { MatchList } from "@/components/features/matches/match-list";
 import { WorldCupGroups } from "@/components/world-cup-groups";
 import { WorldCupSidebar } from "@/components/world-cup-sidebar";
 import { SmallAds } from "@/components/small-ads";
+import BannerAds from "@/components/features/ads/banner-ads";
 
 export default function HomePage() {
   return (

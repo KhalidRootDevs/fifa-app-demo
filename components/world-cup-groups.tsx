@@ -3,150 +3,10 @@
 import { useState } from "react";
 import { Trophy, Users, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { groups } from "@/lib/database/groups";
 
 export function WorldCupGroups() {
   const [selectedGroup, setSelectedGroup] = useState("A");
-
-  const groups = {
-    A: [
-      {
-        team: "Brazil",
-        flag: "🇧🇷",
-        points: 9,
-        played: 3,
-        won: 3,
-        drawn: 0,
-        lost: 0,
-        gf: 8,
-        ga: 2,
-      },
-      {
-        team: "Switzerland",
-        flag: "🇨🇭",
-        points: 6,
-        played: 3,
-        won: 2,
-        drawn: 0,
-        lost: 1,
-        gf: 4,
-        ga: 3,
-      },
-      {
-        team: "Cameroon",
-        flag: "🇨🇲",
-        points: 3,
-        played: 3,
-        won: 1,
-        drawn: 0,
-        lost: 2,
-        gf: 3,
-        ga: 5,
-      },
-      {
-        team: "Serbia",
-        flag: "🇷🇸",
-        points: 0,
-        played: 3,
-        won: 0,
-        drawn: 0,
-        lost: 3,
-        gf: 2,
-        ga: 7,
-      },
-    ],
-    B: [
-      {
-        team: "England",
-        flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-        points: 7,
-        played: 3,
-        won: 2,
-        drawn: 1,
-        lost: 0,
-        gf: 6,
-        ga: 2,
-      },
-      {
-        team: "USA",
-        flag: "🇺🇸",
-        points: 5,
-        played: 3,
-        won: 1,
-        drawn: 2,
-        lost: 0,
-        gf: 4,
-        ga: 3,
-      },
-      {
-        team: "Iran",
-        flag: "🇮🇷",
-        points: 3,
-        played: 3,
-        won: 1,
-        drawn: 0,
-        lost: 2,
-        gf: 3,
-        ga: 5,
-      },
-      {
-        team: "Wales",
-        flag: "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
-        points: 1,
-        played: 3,
-        won: 0,
-        drawn: 1,
-        lost: 2,
-        gf: 2,
-        ga: 5,
-      },
-    ],
-    C: [
-      {
-        team: "Argentina",
-        flag: "🇦🇷",
-        points: 6,
-        played: 3,
-        won: 2,
-        drawn: 0,
-        lost: 1,
-        gf: 5,
-        ga: 2,
-      },
-      {
-        team: "Poland",
-        flag: "🇵🇱",
-        points: 4,
-        played: 3,
-        won: 1,
-        drawn: 1,
-        lost: 1,
-        gf: 3,
-        ga: 3,
-      },
-      {
-        team: "Mexico",
-        flag: "🇲🇽",
-        points: 4,
-        played: 3,
-        won: 1,
-        drawn: 1,
-        lost: 1,
-        gf: 2,
-        ga: 3,
-      },
-      {
-        team: "Saudi Arabia",
-        flag: "🇸🇦",
-        points: 3,
-        played: 3,
-        won: 1,
-        drawn: 0,
-        lost: 2,
-        gf: 3,
-        ga: 5,
-      },
-    ],
-  };
 
   return (
     <div className="glass-card rounded-xl p-6">
@@ -219,8 +79,8 @@ export function WorldCupGroups() {
                   index < 2
                     ? "bg-green-500/10"
                     : index === 2
-                    ? "bg-yellow-500/10"
-                    : ""
+                      ? "bg-yellow-500/10"
+                      : ""
                 }`}
               >
                 <td className="py-3 px-2">

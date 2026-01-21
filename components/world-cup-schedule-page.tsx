@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { Calendar, Clock, MapPin, Play, Bell } from "lucide-react"
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Calendar, Clock, MapPin, Play, Bell } from "lucide-react";
 
 const tournamentPhases = [
   { id: "all", name: "All Matches", color: "bg-blue-500" },
@@ -13,7 +13,7 @@ const tournamentPhases = [
   { id: "quarter", name: "Quarter Finals", color: "bg-orange-500" },
   { id: "semi", name: "Semi Finals", color: "bg-red-500" },
   { id: "final", name: "Final", color: "bg-purple-500" },
-]
+];
 
 const scheduleData = [
   {
@@ -94,40 +94,40 @@ const scheduleData = [
       },
     ],
   },
-]
+];
 
 export function WorldCupSchedulePage() {
-  const [selectedPhase, setSelectedPhase] = useState("all")
-  const [selectedDate, setSelectedDate] = useState("all")
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [selectedPhase, setSelectedPhase] = useState("all");
+  const [selectedDate, setSelectedDate] = useState("all");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Get unique dates
-  const availableDates = ["all", ...scheduleData.map((day) => day.date)]
+  const availableDates = ["all", ...scheduleData.map((day) => day.date)];
 
   // Filter matches based on selected phase and date
   const filteredSchedule = scheduleData.filter((day) => {
-    const phaseMatch = selectedPhase === "all" || day.phase === selectedPhase
-    const dateMatch = selectedDate === "all" || day.date === selectedDate
-    return phaseMatch && dateMatch
-  })
+    const phaseMatch = selectedPhase === "all" || day.phase === selectedPhase;
+    const dateMatch = selectedDate === "all" || day.date === selectedDate;
+    return phaseMatch && dateMatch;
+  });
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
+    const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
-    })
-  }
+    });
+  };
 
   const formatTime = (timeString: string) => {
     return new Date(`2026-01-01T${timeString}`).toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
       hour12: true,
-    })
-  }
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -165,7 +165,10 @@ export function WorldCupSchedulePage() {
               </option>
               {availableDates.slice(1).map((date) => (
                 <option key={date} value={date} className="bg-gray-800">
-                  {new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                  {new Date(date).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })}
                 </option>
               ))}
             </select>
@@ -177,7 +180,10 @@ export function WorldCupSchedulePage() {
       {filteredSchedule.length > 0 ? (
         <div className="space-y-6">
           {filteredSchedule.map((day) => (
-            <div key={day.date} className="glass-card rounded-xl overflow-hidden">
+            <div
+              key={day.date}
+              className="glass-card rounded-xl overflow-hidden"
+            >
               {/* Date Header */}
               <div className="bg-gradient-to-r from-red-600/20 to-yellow-600/20 px-6 py-4 border-b border-white/10">
                 <div className="flex items-center justify-between">
@@ -187,11 +193,15 @@ export function WorldCupSchedulePage() {
                       {formatDate(day.date)}
                     </h3>
                     <p className="text-sm text-gray-300 capitalize">
-                      {day.phase === "group" ? "Group Stage" : day.phase.replace(/([A-Z])/g, " $1").trim()}
+                      {day.phase === "group"
+                        ? "Group Stage"
+                        : day.phase.replace(/([A-Z])/g, " $1").trim()}
                     </p>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-yellow-500">{day.matches.length}</div>
+                    <div className="text-2xl font-bold text-yellow-500">
+                      {day.matches.length}
+                    </div>
                     <div className="text-sm text-gray-400">Matches</div>
                   </div>
                 </div>
@@ -201,7 +211,10 @@ export function WorldCupSchedulePage() {
               <div className="divide-y divide-white/5">
                 {day.matches.map((match) => (
                   <Link key={match.id} href={`/match/${match.id}`}>
-                    <motion.div className="p-6 hover:bg-white/5 transition-colors" whileHover={{ x: 5 }}>
+                    <motion.div
+                      className="p-6 hover:bg-white/5 transition-colors"
+                      whileHover={{ x: 5 }}
+                    >
                       <div className="flex flex-col lg:flex-row lg:items-center gap-4">
                         {/* Time & Group */}
                         <div className="lg:w-32 text-center lg:text-left">
@@ -209,7 +222,11 @@ export function WorldCupSchedulePage() {
                             <Clock className="w-4 h-4" />
                             {formatTime(match.time)}
                           </div>
-                          {match.group && <div className="text-sm text-gray-400">Group {match.group}</div>}
+                          {match.group && (
+                            <div className="text-sm text-gray-400">
+                              Group {match.group}
+                            </div>
+                          )}
                         </div>
 
                         {/* Teams */}
@@ -224,13 +241,19 @@ export function WorldCupSchedulePage() {
                                 className="w-7 h-7 object-cover rounded-full"
                               />
                             </div>
-                            <span className="font-medium text-right">{match.homeTeam.name}</span>
+                            <span className="font-medium text-right">
+                              {match.homeTeam.name}
+                            </span>
                           </div>
 
-                          <div className="text-xl font-bold text-gray-400">VS</div>
+                          <div className="text-xl font-bold text-gray-400">
+                            VS
+                          </div>
 
                           <div className="flex items-center gap-3 min-w-0">
-                            <span className="font-medium">{match.awayTeam.name}</span>
+                            <span className="font-medium">
+                              {match.awayTeam.name}
+                            </span>
                             <div className="w-10 h-10 rounded-full overflow-hidden bg-white/10 flex items-center justify-center flex-shrink-0">
                               <Image
                                 src={match.awayTeam.flag || "/placeholder.svg"}
@@ -249,7 +272,9 @@ export function WorldCupSchedulePage() {
                             <MapPin className="w-4 h-4" />
                             <span>{match.stadium}</span>
                           </div>
-                          <div className="text-xs text-gray-400 mb-3">{match.city}</div>
+                          <div className="text-xs text-gray-400 mb-3">
+                            {match.city}
+                          </div>
 
                           <div className="flex gap-2 justify-center lg:justify-end">
                             {match.status === "live" ? (
@@ -279,11 +304,14 @@ export function WorldCupSchedulePage() {
             <Calendar className="w-8 h-8 text-gray-400" />
           </div>
           <h3 className="text-xl font-medium mb-2">No matches found</h3>
-          <p className="text-gray-400 mb-6">No matches found for the selected filters. Try adjusting your selection.</p>
+          <p className="text-gray-400 mb-6">
+            No matches found for the selected filters. Try adjusting your
+            selection.
+          </p>
           <button
             onClick={() => {
-              setSelectedPhase("all")
-              setSelectedDate("all")
+              setSelectedPhase("all");
+              setSelectedDate("all");
             }}
             className="gradient-bg text-white px-6 py-2 rounded-lg font-medium"
           >
@@ -316,5 +344,5 @@ export function WorldCupSchedulePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

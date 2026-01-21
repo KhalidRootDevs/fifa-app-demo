@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { MatchCard } from "@/components/match-card";
-import { BannerAds } from "@/components/banner-ads";
+
 import { SmallAds } from "@/components/small-ads";
+import BannerAds from "./features/ads/banner-ads";
 
 interface Match {
   id: string;
@@ -214,13 +215,13 @@ export function WorldCupMatchesPage() {
   });
 
   const liveMatches = sampleMatches.filter(
-    (match) => match.status === "live"
+    (match) => match.status === "live",
   ).length;
   const upcomingMatches = sampleMatches.filter(
-    (match) => match.status === "upcoming"
+    (match) => match.status === "upcoming",
   ).length;
   const completedMatches = sampleMatches.filter(
-    (match) => match.status === "completed"
+    (match) => match.status === "completed",
   ).length;
 
   return (
@@ -466,8 +467,8 @@ export function WorldCupMatchesPage() {
                       {country.id === "usa"
                         ? "11"
                         : country.id === "canada"
-                        ? "2"
-                        : "3"}{" "}
+                          ? "2"
+                          : "3"}{" "}
                       venues
                     </Badge>
                   </div>
