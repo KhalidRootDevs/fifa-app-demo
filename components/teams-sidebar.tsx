@@ -1,28 +1,68 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { ChevronRight, Star } from "lucide-react"
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ChevronRight, Star } from "lucide-react";
 
 const teams = [
   { id: "top", name: "Top Teams", icon: "/icons/star.svg", status: "featured" },
-  { id: "chelsea", name: "Chelsea", icon: "/icons/chelsea.svg", status: "playing" },
-  { id: "manutd", name: "Manchester United", icon: "/icons/manutd.svg", status: "upcoming" },
-  { id: "barcelona", name: "Barcelona", icon: "/icons/barcelona.svg", status: "upcoming" },
+  {
+    id: "chelsea",
+    name: "Chelsea",
+    icon: "/icons/chelsea.svg",
+    status: "playing",
+  },
+  {
+    id: "manutd",
+    name: "Manchester United",
+    icon: "/icons/manutd.svg",
+    status: "upcoming",
+  },
+  {
+    id: "barcelona",
+    name: "Barcelona",
+    icon: "/icons/barcelona.svg",
+    status: "upcoming",
+  },
   { id: "napoli", name: "Napoli", icon: "/icons/napoli.svg", status: "idle" },
-  { id: "mancity", name: "Manchester City", icon: "/icons/mancity.svg", status: "playing" },
-  { id: "bayern", name: "Bayern München", icon: "/icons/bayern.svg", status: "playing" },
-  { id: "leverkusen", name: "Bayer Leverkusen", icon: "/icons/leverkusen.svg", status: "idle" },
+  {
+    id: "mancity",
+    name: "Manchester City",
+    icon: "/icons/mancity.svg",
+    status: "playing",
+  },
+  {
+    id: "bayern",
+    name: "Bayern München",
+    icon: "/icons/bayern.svg",
+    status: "playing",
+  },
+  {
+    id: "leverkusen",
+    name: "Bayer Leverkusen",
+    icon: "/icons/leverkusen.svg",
+    status: "idle",
+  },
   { id: "inter", name: "Inter", icon: "/icons/inter.svg", status: "playing" },
-  { id: "psg", name: "Paris Saint Germain", icon: "/icons/psg.svg", status: "upcoming" },
-  { id: "marseille", name: "Marseille", icon: "/icons/marseille.svg", status: "idle" },
-]
+  {
+    id: "psg",
+    name: "Paris Saint Germain",
+    icon: "/icons/psg.svg",
+    status: "upcoming",
+  },
+  {
+    id: "marseille",
+    name: "Marseille",
+    icon: "/icons/marseille.svg",
+    status: "idle",
+  },
+];
 
 export function TeamsSidebar() {
-  const [hoveredTeam, setHoveredTeam] = useState<string | null>(null)
-  const [expanded, setExpanded] = useState(true)
+  const [hoveredTeam, setHoveredTeam] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState(true);
 
   const container = {
     hidden: { opacity: 0 },
@@ -33,55 +73,66 @@ export function TeamsSidebar() {
         delayChildren: 0.1,
       },
     },
-  }
+  };
 
   const item = {
     hidden: { opacity: 0, x: -20 },
     show: { opacity: 1, x: 0 },
-  }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "playing":
-        return "bg-green-500"
+        return "bg-green-500";
       case "upcoming":
-        return "bg-yellow-500"
+        return "bg-yellow-500";
       case "idle":
-        return "bg-gray-500"
+        return "bg-gray-500";
       default:
-        return "bg-gray-500"
+        return "bg-gray-500";
     }
-  }
+  };
 
   const getStatusText = (status: string) => {
     switch (status) {
       case "playing":
-        return "Live"
+        return "Live";
       case "upcoming":
-        return "Soon"
+        return "Soon";
       case "idle":
-        return "Idle"
+        return "Idle";
       default:
-        return ""
+        return "";
     }
-  }
+  };
 
   return (
     <div className="bg-dark-accent rounded-md border border-dark-accent p-4 overflow-hidden">
-      <div className="flex items-center justify-between mb-3 cursor-pointer" onClick={() => setExpanded(!expanded)}>
+      <div
+        className="flex items-center justify-between mb-3 cursor-pointer"
+        onClick={() => setExpanded(!expanded)}
+      >
         <div className="flex items-center gap-2">
           <div className="bg-gradient-to-br from-red-500 to-red-700 p-1.5 rounded-md">
             <Star size={16} className="text-white" />
           </div>
           <h3 className="text-lg font-semibold">Teams</h3>
         </div>
-        <motion.div animate={{ rotate: expanded ? 90 : 0 }} transition={{ duration: 0.2 }}>
+        <motion.div
+          animate={{ rotate: expanded ? 90 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
           <ChevronRight size={18} />
         </motion.div>
       </div>
 
       {expanded && (
-        <motion.ul className="space-y-1" variants={container} initial="hidden" animate="show">
+        <motion.ul
+          className="space-y-1"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
           {teams.map((team) => (
             <motion.li key={team.id} variants={item}>
               <Link
@@ -99,7 +150,10 @@ export function TeamsSidebar() {
                     className={`w-8 h-8 rounded-full flex items-center justify-center bg-dark-secondary relative`}
                     animate={{
                       scale: hoveredTeam === team.id ? 1.1 : 1,
-                      boxShadow: hoveredTeam === team.id ? "0 0 0 2px rgba(239, 68, 68, 0.3)" : "none",
+                      boxShadow:
+                        hoveredTeam === team.id
+                          ? "0 0 0 2px rgba(239, 68, 68, 0.3)"
+                          : "none",
                     }}
                     transition={{ duration: 0.2 }}
                   >
@@ -126,7 +180,9 @@ export function TeamsSidebar() {
                 {team.status !== "featured" && team.status !== "idle" && (
                   <motion.span
                     className={`text-xs px-1.5 py-0.5 rounded-full text-white ${
-                      team.status === "playing" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"
+                      team.status === "playing"
+                        ? "bg-green-500/20 text-green-400"
+                        : "bg-yellow-500/20 text-yellow-400"
                     }`}
                     initial={{ opacity: 0, y: 5 }}
                     animate={{
@@ -145,5 +201,5 @@ export function TeamsSidebar() {
         </motion.ul>
       )}
     </div>
-  )
+  );
 }

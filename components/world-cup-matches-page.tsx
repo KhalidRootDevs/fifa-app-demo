@@ -9,45 +9,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { MatchCard } from "@/components/match-card";
 
-import { SmallAds } from "@/components/small-ads";
+import { SmallAds } from "@/components/features/ads/small-ads";
 import BannerAds from "./features/ads/banner-ads";
-
-interface Match {
-  id: string;
-  homeTeam: {
-    name: string;
-    flag: string;
-    ranking: number;
-  };
-  awayTeam: {
-    name: string;
-    flag: string;
-    ranking: number;
-  };
-  date: string;
-  time: string;
-  venue: string;
-  city: string;
-  country: string;
-  phase: string;
-  group?: string;
-  status: "live" | "upcoming" | "completed";
-  score?: {
-    home: number;
-    away: number;
-  };
-  viewers?: number;
-  attendance?: number;
-  temperature?: number;
-  stats?: {
-    possession: { home: number; away: number };
-    shots: { home: number; away: number };
-    corners: { home: number; away: number };
-    fouls: { home: number; away: number };
-    yellowCards: { home: number; away: number };
-    redCards: { home: number; away: number };
-  };
-}
+import { Match } from "@/types";
+import { sampleMatches } from "@/lib/database/sampleMatches";
 
 const phases = [
   { id: "all", name: "All Phases", color: "bg-gray-600" },
@@ -70,123 +35,6 @@ const statuses = [
   { id: "live", name: "Live Now" },
   { id: "upcoming", name: "Upcoming" },
   { id: "completed", name: "Completed" },
-];
-
-const sampleMatches: Match[] = [
-  {
-    id: "1",
-    homeTeam: { name: "Brazil", flag: "🇧🇷", ranking: 1 },
-    awayTeam: { name: "Argentina", flag: "🇦🇷", ranking: 2 },
-    date: "2026-06-15",
-    time: "15:00",
-    venue: "MetLife Stadium",
-    city: "New York",
-    country: "USA",
-    phase: "group",
-    group: "A",
-    status: "live",
-    score: { home: 2, away: 1 },
-    viewers: 2500000,
-    attendance: 82500,
-    temperature: 24,
-    stats: {
-      possession: { home: 58, away: 42 },
-      shots: { home: 12, away: 8 },
-      corners: { home: 6, away: 4 },
-      fouls: { home: 8, away: 12 },
-      yellowCards: { home: 2, away: 3 },
-      redCards: { home: 0, away: 1 },
-    },
-  },
-  {
-    id: "2",
-    homeTeam: { name: "France", flag: "🇫🇷", ranking: 3 },
-    awayTeam: { name: "Germany", flag: "🇩🇪", ranking: 4 },
-    date: "2026-06-16",
-    time: "18:00",
-    venue: "SoFi Stadium",
-    city: "Los Angeles",
-    country: "USA",
-    phase: "group",
-    group: "B",
-    status: "upcoming",
-    viewers: 1800000,
-    attendance: 70000,
-    temperature: 28,
-  },
-  {
-    id: "3",
-    homeTeam: { name: "Spain", flag: "🇪🇸", ranking: 5 },
-    awayTeam: { name: "Netherlands", flag: "🇳🇱", ranking: 6 },
-    date: "2026-06-17",
-    time: "20:00",
-    venue: "Estadio Azteca",
-    city: "Mexico City",
-    country: "Mexico",
-    phase: "group",
-    group: "C",
-    status: "upcoming",
-    viewers: 2200000,
-    attendance: 87000,
-    temperature: 22,
-  },
-  {
-    id: "4",
-    homeTeam: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", ranking: 7 },
-    awayTeam: { name: "Italy", flag: "🇮🇹", ranking: 8 },
-    date: "2026-06-18",
-    time: "16:00",
-    venue: "AT&T Stadium",
-    city: "Dallas",
-    country: "USA",
-    phase: "group",
-    group: "D",
-    status: "upcoming",
-    viewers: 1900000,
-    attendance: 80000,
-    temperature: 32,
-  },
-  {
-    id: "5",
-    homeTeam: { name: "Portugal", flag: "🇵🇹", ranking: 9 },
-    awayTeam: { name: "Belgium", flag: "🇧🇪", ranking: 10 },
-    date: "2026-06-19",
-    time: "19:00",
-    venue: "BMO Field",
-    city: "Toronto",
-    country: "Canada",
-    phase: "group",
-    group: "E",
-    status: "upcoming",
-    viewers: 1600000,
-    attendance: 45000,
-    temperature: 18,
-  },
-  {
-    id: "6",
-    homeTeam: { name: "Croatia", flag: "🇭🇷", ranking: 11 },
-    awayTeam: { name: "Morocco", flag: "🇲🇦", ranking: 12 },
-    date: "2026-06-14",
-    time: "14:00",
-    venue: "Lumen Field",
-    city: "Seattle",
-    country: "USA",
-    phase: "group",
-    group: "F",
-    status: "completed",
-    score: { home: 1, away: 2 },
-    viewers: 1400000,
-    attendance: 69000,
-    temperature: 16,
-    stats: {
-      possession: { home: 52, away: 48 },
-      shots: { home: 10, away: 14 },
-      corners: { home: 5, away: 7 },
-      fouls: { home: 15, away: 9 },
-      yellowCards: { home: 4, away: 2 },
-      redCards: { home: 0, away: 0 },
-    },
-  },
 ];
 
 export function WorldCupMatchesPage() {

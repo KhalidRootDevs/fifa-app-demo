@@ -1,289 +1,107 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { Flame, Filter, X, Trophy, MapPin, Users, Clock } from "lucide-react"
-
-// Sample live World Cup matches data
-const liveMatches = [
-  {
-    id: 1,
-    phase: "Group Stage",
-    group: "Group A",
-    homeTeam: {
-      name: "Brazil",
-      code: "BRA",
-      flag: "/flags/brazil.svg",
-      score: 2,
-      fifaRanking: 1,
-    },
-    awayTeam: {
-      name: "Argentina",
-      code: "ARG",
-      flag: "/flags/argentina.svg",
-      score: 1,
-      fifaRanking: 2,
-    },
-    minute: 78,
-    venue: "MetLife Stadium",
-    city: "New York, USA",
-    attendance: "82,500",
-    temperature: "24°C",
-    viewers: "2.8M",
-    stats: {
-      possession: [52, 48],
-      shots: [15, 12],
-      corners: [7, 4],
-      fouls: [8, 11],
-      yellowCards: [2, 3],
-      redCards: [0, 0],
-    },
-  },
-  {
-    id: 2,
-    phase: "Quarter Final",
-    group: null,
-    homeTeam: {
-      name: "France",
-      code: "FRA",
-      flag: "/flags/france.svg",
-      score: 3,
-      fifaRanking: 3,
-    },
-    awayTeam: {
-      name: "Germany",
-      code: "GER",
-      flag: "/flags/germany.svg",
-      score: 2,
-      fifaRanking: 4,
-    },
-    minute: 65,
-    venue: "SoFi Stadium",
-    city: "Los Angeles, USA",
-    attendance: "70,240",
-    temperature: "28°C",
-    viewers: "3.2M",
-    stats: {
-      possession: [45, 55],
-      shots: [18, 16],
-      corners: [9, 6],
-      fouls: [12, 9],
-      yellowCards: [3, 2],
-      redCards: [0, 1],
-    },
-  },
-  {
-    id: 3,
-    phase: "Group Stage",
-    group: "Group B",
-    homeTeam: {
-      name: "Spain",
-      code: "ESP",
-      flag: "/flags/spain.svg",
-      score: 1,
-      fifaRanking: 5,
-    },
-    awayTeam: {
-      name: "Netherlands",
-      code: "NED",
-      flag: "/flags/netherlands.svg",
-      score: 1,
-      fifaRanking: 6,
-    },
-    minute: 34,
-    venue: "Estadio Azteca",
-    city: "Mexico City, Mexico",
-    attendance: "87,523",
-    temperature: "22°C",
-    viewers: "2.1M",
-    stats: {
-      possession: [65, 35],
-      shots: [12, 8],
-      corners: [5, 2],
-      fouls: [6, 14],
-      yellowCards: [1, 4],
-      redCards: [0, 0],
-    },
-  },
-  {
-    id: 4,
-    phase: "Semi Final",
-    group: null,
-    homeTeam: {
-      name: "England",
-      code: "ENG",
-      flag: "/flags/england.svg",
-      score: 2,
-      fifaRanking: 7,
-    },
-    awayTeam: {
-      name: "Portugal",
-      code: "POR",
-      flag: "/flags/portugal.svg",
-      score: 0,
-      fifaRanking: 8,
-    },
-    minute: 82,
-    venue: "AT&T Stadium",
-    city: "Dallas, USA",
-    attendance: "80,000",
-    temperature: "26°C",
-    viewers: "4.1M",
-    stats: {
-      possession: [48, 52],
-      shots: [14, 10],
-      corners: [6, 8],
-      fouls: [10, 7],
-      yellowCards: [2, 1],
-      redCards: [0, 0],
-    },
-  },
-  {
-    id: 5,
-    phase: "Group Stage",
-    group: "Group C",
-    homeTeam: {
-      name: "Italy",
-      code: "ITA",
-      flag: "/flags/italy.svg",
-      score: 0,
-      fifaRanking: 9,
-    },
-    awayTeam: {
-      name: "Belgium",
-      code: "BEL",
-      flag: "/flags/belgium.svg",
-      score: 2,
-      fifaRanking: 10,
-    },
-    minute: 55,
-    venue: "BMO Field",
-    city: "Toronto, Canada",
-    attendance: "45,500",
-    temperature: "18°C",
-    viewers: "1.8M",
-    stats: {
-      possession: [42, 58],
-      shots: [9, 13],
-      corners: [3, 7],
-      fouls: [15, 8],
-      yellowCards: [4, 2],
-      redCards: [1, 0],
-    },
-  },
-  {
-    id: 6,
-    phase: "Group Stage",
-    group: "Group D",
-    homeTeam: {
-      name: "Croatia",
-      code: "CRO",
-      flag: "/flags/croatia.svg",
-      score: 1,
-      fifaRanking: 11,
-    },
-    awayTeam: {
-      name: "Morocco",
-      code: "MAR",
-      flag: "/flags/morocco.svg",
-      score: 3,
-      fifaRanking: 12,
-    },
-    minute: 70,
-    venue: "BC Place",
-    city: "Vancouver, Canada",
-    attendance: "54,500",
-    temperature: "16°C",
-    viewers: "1.5M",
-    stats: {
-      possession: [55, 45],
-      shots: [11, 16],
-      corners: [4, 9],
-      fouls: [9, 12],
-      yellowCards: [2, 3],
-      redCards: [0, 0],
-    },
-  },
-]
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Flame, Filter, X, Trophy, MapPin, Users, Clock } from "lucide-react";
+import { liveMatches } from "@/lib/database/matches";
 
 // Tournament phases for filtering
 const phases = [
   { id: "group", name: "Group Stage", color: "bg-green-500/20 text-green-400" },
   { id: "round16", name: "Round of 16", color: "bg-blue-500/20 text-blue-400" },
-  { id: "quarter", name: "Quarter Final", color: "bg-yellow-500/20 text-yellow-400" },
+  {
+    id: "quarter",
+    name: "Quarter Final",
+    color: "bg-yellow-500/20 text-yellow-400",
+  },
   { id: "semi", name: "Semi Final", color: "bg-orange-500/20 text-orange-400" },
   { id: "final", name: "Final", color: "bg-red-500/20 text-red-400" },
-]
+];
 
 // Host countries for filtering
 const hostCountries = [
   { id: "usa", name: "USA", flag: "/flags/usa.svg" },
   { id: "canada", name: "Canada", flag: "/flags/canada.svg" },
   { id: "mexico", name: "Mexico", flag: "/flags/mexico.svg" },
-]
+];
 
 export function WorldCupLiveMatchesPage() {
-  const [selectedPhases, setSelectedPhases] = useState<string[]>([])
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([])
-  const [searchQuery, setSearchQuery] = useState("")
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [sortBy, setSortBy] = useState<"viewers" | "minute" | "phase">("viewers")
+  const [selectedPhases, setSelectedPhases] = useState<string[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<"viewers" | "minute" | "phase">(
+    "viewers",
+  );
 
   // Filter matches based on selected phases, countries, and search query
   const filteredMatches = liveMatches.filter((match) => {
     // Phase filter
     const matchesPhase =
       selectedPhases.length === 0 ||
-      selectedPhases.some((phase) => match.phase.toLowerCase().includes(phase.toLowerCase()))
+      selectedPhases.some((phase) =>
+        match.phase.toLowerCase().includes(phase.toLowerCase()),
+      );
 
     // Country filter (based on venue city)
     const matchesCountry =
       selectedCountries.length === 0 ||
-      selectedCountries.some((country) => match.city.toLowerCase().includes(country.toLowerCase()))
+      selectedCountries.some((country) =>
+        match.city.toLowerCase().includes(country.toLowerCase()),
+      );
 
     // Search filter
-    const searchLower = searchQuery.toLowerCase()
+    const searchLower = searchQuery.toLowerCase();
     const matchesSearch =
       searchQuery === "" ||
       match.homeTeam.name.toLowerCase().includes(searchLower) ||
       match.awayTeam.name.toLowerCase().includes(searchLower) ||
       match.phase.toLowerCase().includes(searchLower) ||
-      match.venue.toLowerCase().includes(searchLower)
+      match.venue.toLowerCase().includes(searchLower);
 
-    return matchesPhase && matchesCountry && matchesSearch
-  })
+    return matchesPhase && matchesCountry && matchesSearch;
+  });
 
   // Sort matches
   const sortedMatches = [...filteredMatches].sort((a, b) => {
     if (sortBy === "viewers") {
-      return Number.parseFloat(b.viewers.replace(/[^0-9.]/g, "")) - Number.parseFloat(a.viewers.replace(/[^0-9.]/g, ""))
+      return (
+        Number.parseFloat(b.viewers.replace(/[^0-9.]/g, "")) -
+        Number.parseFloat(a.viewers.replace(/[^0-9.]/g, ""))
+      );
     } else if (sortBy === "minute") {
-      return b.minute - a.minute
+      return b.minute - a.minute;
     } else {
-      return a.phase.localeCompare(b.phase)
+      return a.phase.localeCompare(b.phase);
     }
-  })
+  });
 
   // Toggle phase selection
   const togglePhase = (phaseId: string) => {
-    setSelectedPhases((prev) => (prev.includes(phaseId) ? prev.filter((id) => id !== phaseId) : [...prev, phaseId]))
-  }
+    setSelectedPhases((prev) =>
+      prev.includes(phaseId)
+        ? prev.filter((id) => id !== phaseId)
+        : [...prev, phaseId],
+    );
+  };
 
   // Toggle country selection
   const toggleCountry = (countryId: string) => {
     setSelectedCountries((prev) =>
-      prev.includes(countryId) ? prev.filter((id) => id !== countryId) : [...prev, countryId],
-    )
-  }
+      prev.includes(countryId)
+        ? prev.filter((id) => id !== countryId)
+        : [...prev, countryId],
+    );
+  };
 
   // Clear all filters
   const clearFilters = () => {
-    setSelectedPhases([])
-    setSelectedCountries([])
-    setSearchQuery("")
-  }
+    setSelectedPhases([]);
+    setSelectedCountries([]);
+    setSearchQuery("");
+  };
 
   return (
     <div className="space-y-6">
@@ -301,7 +119,9 @@ export function WorldCupLiveMatchesPage() {
           </div>
           <div className="flex items-center gap-6 text-sm">
             <div className="text-center">
-              <div className="text-2xl font-bold text-red-500">{sortedMatches.length}</div>
+              <div className="text-2xl font-bold text-red-500">
+                {sortedMatches.length}
+              </div>
               <div className="text-gray-400">Live Now</div>
             </div>
             <div className="text-center">
@@ -356,7 +176,9 @@ export function WorldCupLiveMatchesPage() {
           <div className="md:w-48">
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as "viewers" | "minute" | "phase")}
+              onChange={(e) =>
+                setSortBy(e.target.value as "viewers" | "minute" | "phase")
+              }
               className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-white/40"
             >
               <option value="viewers">Sort by Viewers</option>
@@ -478,14 +300,20 @@ export function WorldCupLiveMatchesPage() {
                     >
                       {match.phase}
                     </span>
-                    {match.group && <span className="text-xs text-gray-400">{match.group}</span>}
+                    {match.group && (
+                      <span className="text-xs text-gray-400">
+                        {match.group}
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="text-xs bg-red-500/20 text-red-500 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
                       <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
                       LIVE
                     </div>
-                    <span className="text-xs text-gray-300">{match.minute}'</span>
+                    <span className="text-xs text-gray-300">
+                      {match.minute}'
+                    </span>
                   </div>
                 </div>
 
@@ -516,8 +344,12 @@ export function WorldCupLiveMatchesPage() {
                       </div>
                     </div>
                     <div>
-                      <div className="text-sm font-medium">{match.homeTeam.name}</div>
-                      <div className="text-xs text-gray-400">{match.homeTeam.code}</div>
+                      <div className="text-sm font-medium">
+                        {match.homeTeam.name}
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        {match.homeTeam.code}
+                      </div>
                     </div>
                   </div>
 
@@ -525,13 +357,19 @@ export function WorldCupLiveMatchesPage() {
                     <div className="text-3xl font-bold score-pulse">
                       {match.homeTeam.score} - {match.awayTeam.score}
                     </div>
-                    <div className="text-xs text-gray-400">{match.minute} min</div>
+                    <div className="text-xs text-gray-400">
+                      {match.minute} min
+                    </div>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <div className="text-sm font-medium">{match.awayTeam.name}</div>
-                      <div className="text-xs text-gray-400">{match.awayTeam.code}</div>
+                      <div className="text-sm font-medium">
+                        {match.awayTeam.name}
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        {match.awayTeam.code}
+                      </div>
                     </div>
                     <div className="relative">
                       <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center">
@@ -561,32 +399,48 @@ export function WorldCupLiveMatchesPage() {
                       ></div>
                     </div>
                     <div className="flex justify-between w-full mt-1">
-                      <span className="text-xs">{match.stats.possession[0]}%</span>
-                      <span className="text-xs">{match.stats.possession[1]}%</span>
+                      <span className="text-xs">
+                        {match.stats.possession[0]}%
+                      </span>
+                      <span className="text-xs">
+                        {match.stats.possession[1]}%
+                      </span>
                     </div>
                   </div>
 
                   <div className="flex flex-col items-center">
                     <div className="text-xs text-gray-400 mb-1">Shots</div>
                     <div className="flex justify-between w-full">
-                      <span className="text-sm font-medium">{match.stats.shots[0]}</span>
-                      <span className="text-sm font-medium">{match.stats.shots[1]}</span>
+                      <span className="text-sm font-medium">
+                        {match.stats.shots[0]}
+                      </span>
+                      <span className="text-sm font-medium">
+                        {match.stats.shots[1]}
+                      </span>
                     </div>
                   </div>
 
                   <div className="flex flex-col items-center">
                     <div className="text-xs text-gray-400 mb-1">Corners</div>
                     <div className="flex justify-between w-full">
-                      <span className="text-sm font-medium">{match.stats.corners[0]}</span>
-                      <span className="text-sm font-medium">{match.stats.corners[1]}</span>
+                      <span className="text-sm font-medium">
+                        {match.stats.corners[0]}
+                      </span>
+                      <span className="text-sm font-medium">
+                        {match.stats.corners[1]}
+                      </span>
                     </div>
                   </div>
 
                   <div className="flex flex-col items-center">
                     <div className="text-xs text-gray-400 mb-1">Cards</div>
                     <div className="flex justify-between w-full">
-                      <span className="text-sm font-medium text-yellow-500">{match.stats.yellowCards[0]}</span>
-                      <span className="text-sm font-medium text-yellow-500">{match.stats.yellowCards[1]}</span>
+                      <span className="text-sm font-medium text-yellow-500">
+                        {match.stats.yellowCards[0]}
+                      </span>
+                      <span className="text-sm font-medium text-yellow-500">
+                        {match.stats.yellowCards[1]}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -661,14 +515,17 @@ export function WorldCupLiveMatchesPage() {
           </div>
           <h3 className="text-xl font-medium mb-2">No live matches found</h3>
           <p className="text-gray-400 mb-6">
-            There are no live World Cup matches matching your search criteria. Try adjusting your filters or check back
-            later.
+            There are no live World Cup matches matching your search criteria.
+            Try adjusting your filters or check back later.
           </p>
-          <button onClick={clearFilters} className="gradient-bg text-white px-6 py-2 rounded-lg font-medium">
+          <button
+            onClick={clearFilters}
+            className="gradient-bg text-white px-6 py-2 rounded-lg font-medium"
+          >
             Clear Filters
           </button>
         </div>
       )}
     </div>
-  )
+  );
 }

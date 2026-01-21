@@ -1,116 +1,57 @@
-"use client"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { Calendar, ChevronRight, Clock, MapPin } from "lucide-react"
-
-// Sample data - we'll sort this by date and time
-const upcomingMatches = [
-  {
-    id: 1,
-    date: "2023-11-15",
-    time: "21:00",
-    league: "La Liga",
-    leagueId: "laliga",
-    homeTeam: { name: "Villarreal", logo: "/icons/villarreal.svg" },
-    awayTeam: { name: "Espanyol", logo: "/icons/espanyol.svg" },
-    stadium: "Estadio de la Cerámica",
-  },
-  {
-    id: 2,
-    date: "2023-11-15",
-    time: "21:45",
-    league: "Ligue 1",
-    leagueId: "ligue1",
-    homeTeam: { name: "Nantes", logo: "/icons/nantes.svg" },
-    awayTeam: { name: "Toulouse", logo: "/icons/toulouse.svg" },
-    stadium: "Stade de la Beaujoire",
-  },
-  {
-    id: 3,
-    date: "2023-11-16",
-    time: "18:30",
-    league: "Ligue 1",
-    leagueId: "ligue1",
-    homeTeam: { name: "Montpellier", logo: "/icons/montpellier.svg" },
-    awayTeam: { name: "Reims", logo: "/icons/reims.svg" },
-    stadium: "Stade de la Mosson",
-  },
-  {
-    id: 4,
-    date: "2023-11-16",
-    time: "20:00",
-    league: "Ligue 1",
-    leagueId: "ligue1",
-    homeTeam: { name: "Lens", logo: "/icons/lens.svg" },
-    awayTeam: { name: "Auxerre", logo: "/icons/auxerre.svg" },
-    stadium: "Stade Bollaert-Delelis",
-  },
-  {
-    id: 5,
-    date: "2023-11-17",
-    time: "20:45",
-    league: "Premier League",
-    leagueId: "premier",
-    homeTeam: { name: "Liverpool", logo: "/icons/liverpool.svg" },
-    awayTeam: { name: "Tottenham", logo: "/icons/tottenham.svg" },
-    stadium: "Anfield",
-  },
-  {
-    id: 6,
-    date: "2023-11-17",
-    time: "20:30",
-    league: "Bundesliga",
-    leagueId: "bundesliga",
-    homeTeam: { name: "Werder Bremen", logo: "/icons/bremen.svg" },
-    awayTeam: { name: "FC St. Pauli", logo: "/icons/stpauli.svg" },
-    stadium: "Weserstadion",
-  },
-]
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Calendar, ChevronRight, Clock, MapPin } from "lucide-react";
+import { upcomingMatches } from "@/lib/database/upcomingMatches";
 
 interface UpcomingMatchesProps {
-  compact?: boolean
+  compact?: boolean;
 }
 
 export function UpcomingMatches({ compact = false }: UpcomingMatchesProps) {
   // Sort matches by date and time (earlier matches first)
   const sortedMatches = [...upcomingMatches].sort((a, b) => {
-    const dateA = new Date(`${a.date}T${a.time}`)
-    const dateB = new Date(`${b.date}T${b.time}`)
-    return dateA.getTime() - dateB.getTime()
-  })
+    const dateA = new Date(`${a.date}T${a.time}`);
+    const dateB = new Date(`${b.date}T${b.time}`);
+    return dateA.getTime() - dateB.getTime();
+  });
 
   // Limit the number of matches if compact view is requested
-  const displayMatches = compact ? sortedMatches.slice(0, 5) : sortedMatches
+  const displayMatches = compact ? sortedMatches.slice(0, 5) : sortedMatches;
 
   // Group matches by date for display
   const matchesByDate = displayMatches.reduce(
     (groups, match) => {
-      const date = match.date
+      const date = match.date;
       if (!groups[date]) {
-        groups[date] = []
+        groups[date] = [];
       }
-      groups[date].push(match)
-      return groups
+      groups[date].push(match);
+      return groups;
     },
     {} as Record<string, typeof upcomingMatches>,
-  )
+  );
 
   // Format date for display
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    const today = new Date()
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
+    const date = new Date(dateString);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
     if (date.toDateString() === today.toDateString()) {
-      return "Today"
+      return "Today";
     } else if (date.toDateString() === tomorrow.toDateString()) {
-      return "Tomorrow"
+      return "Tomorrow";
     } else {
-      return date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })
+      return date.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      });
     }
-  }
+  };
 
   return (
     <div className="space-y-4">
@@ -140,7 +81,10 @@ export function UpcomingMatches({ compact = false }: UpcomingMatchesProps) {
             <div className="divide-y divide-white/5">
               {matches.map((match) => (
                 <Link key={match.id} href={`/match/${match.id}`}>
-                  <motion.div className="p-4 hover:bg-white/5 transition-colors" whileHover={{ x: 5 }}>
+                  <motion.div
+                    className="p-4 hover:bg-white/5 transition-colors"
+                    whileHover={{ x: 5 }}
+                  >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <Image
@@ -150,7 +94,9 @@ export function UpcomingMatches({ compact = false }: UpcomingMatchesProps) {
                           height={16}
                           className="w-4 h-4 object-contain"
                         />
-                        <span className="text-xs text-gray-400">{match.league}</span>
+                        <span className="text-xs text-gray-400">
+                          {match.league}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2 text-xs text-gray-300">
                         <Clock className="w-3 h-3" />
@@ -169,13 +115,19 @@ export function UpcomingMatches({ compact = false }: UpcomingMatchesProps) {
                             className="w-5 h-5 object-contain"
                           />
                         </div>
-                        <span className="text-sm font-medium">{match.homeTeam.name}</span>
+                        <span className="text-sm font-medium">
+                          {match.homeTeam.name}
+                        </span>
                       </div>
 
-                      <span className="text-xs font-medium text-gray-400">VS</span>
+                      <span className="text-xs font-medium text-gray-400">
+                        VS
+                      </span>
 
                       <div className="flex items-center gap-3">
-                        <span className="text-sm font-medium">{match.awayTeam.name}</span>
+                        <span className="text-sm font-medium">
+                          {match.awayTeam.name}
+                        </span>
                         <div className="w-8 h-8 bg-white/5 rounded-full flex items-center justify-center">
                           <Image
                             src={match.awayTeam.logo || "/placeholder.svg"}
@@ -214,5 +166,5 @@ export function UpcomingMatches({ compact = false }: UpcomingMatchesProps) {
         </div>
       )}
     </div>
-  )
+  );
 }

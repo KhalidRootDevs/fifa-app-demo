@@ -1,55 +1,21 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-
-const hotMatches = [
-  {
-    id: 1,
-    homeTeam: { name: "INT", logo: "/icons/inter.svg" },
-    awayTeam: { name: "BAY", logo: "/icons/bayern.svg" },
-    score: "0 - 0",
-    league: "UEFA Champions League Updated",
-    isLive: true,
-  },
-  {
-    id: 2,
-    homeTeam: { name: "BOU", logo: "/icons/bournemouth.svg" },
-    awayTeam: { name: "MAN", logo: "/icons/manutd.svg" },
-    score: "0 - 0",
-    league: "Premier League",
-    isLive: true,
-  },
-  {
-    id: 3,
-    homeTeam: { name: "ANG", logo: "/icons/angers.svg" },
-    awayTeam: { name: "LIL", logo: "/icons/lille.svg" },
-    score: "0 - 0",
-    league: "Ligue 1",
-    isLive: true,
-  },
-  {
-    id: 4,
-    homeTeam: { name: "VFL", logo: "/icons/wolfsburg.svg" },
-    awayTeam: { name: "UNI", logo: "/icons/union.svg" },
-    score: "0 - 0",
-    league: "Bundesliga",
-    isLive: true,
-  },
-]
+import { useState } from "react";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { hotMatches } from "@/lib/database/hotMatches";
 
 export function HotMatches() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const totalSlides = Math.ceil(hotMatches.length / 1) // Show 1 match per slide on mobile, adjust as needed
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = Math.ceil(hotMatches.length / 1); // Show 1 match per slide on mobile, adjust as needed
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1))
-  }
+    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+  };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1))
-  }
+    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+  };
 
   return (
     <div className="space-y-4">
@@ -84,11 +50,18 @@ export function HotMatches() {
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
             {hotMatches.map((match) => (
-              <div key={match.id} className="w-full flex-shrink-0 md:w-1/2 lg:w-1/3 px-2">
+              <div
+                key={match.id}
+                className="w-full flex-shrink-0 md:w-1/2 lg:w-1/3 px-2"
+              >
                 <div className="bg-dark rounded-md overflow-hidden h-full">
                   <div className="flex justify-between items-center p-2">
-                    <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded">Live</span>
-                    <span className="text-white text-sm font-medium">{match.score}</span>
+                    <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded">
+                      Live
+                    </span>
+                    <span className="text-white text-sm font-medium">
+                      {match.score}
+                    </span>
                   </div>
 
                   <div className="p-4">
@@ -101,7 +74,9 @@ export function HotMatches() {
                           height={40}
                           className="w-10 h-10 object-contain"
                         />
-                        <span className="text-white text-sm mt-1">{match.homeTeam.name}</span>
+                        <span className="text-white text-sm mt-1">
+                          {match.homeTeam.name}
+                        </span>
                       </div>
 
                       <span className="text-white text-sm">VS</span>
@@ -114,12 +89,16 @@ export function HotMatches() {
                           height={40}
                           className="w-10 h-10 object-contain"
                         />
-                        <span className="text-white text-sm mt-1">{match.awayTeam.name}</span>
+                        <span className="text-white text-sm mt-1">
+                          {match.awayTeam.name}
+                        </span>
                       </div>
                     </div>
 
                     <div className="text-center mt-3">
-                      <span className="text-gray-400 text-xs">{match.league}</span>
+                      <span className="text-gray-400 text-xs">
+                        {match.league}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -141,5 +120,5 @@ export function HotMatches() {
         </div>
       </div>
     </div>
-  )
+  );
 }

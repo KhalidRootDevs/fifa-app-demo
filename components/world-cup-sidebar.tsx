@@ -71,8 +71,8 @@ export function WorldCupSidebar() {
                   phase.status === "completed"
                     ? "bg-green-500/20 text-green-400"
                     : phase.status === "live"
-                    ? "bg-yellow-500/20 text-yellow-400"
-                    : "bg-gray-500/20 text-gray-400"
+                      ? "bg-yellow-500/20 text-yellow-400"
+                      : "bg-gray-500/20 text-gray-400"
                 }`}
               >
                 {phase.status}

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, Clock, MapPin, Play, Bell } from "lucide-react";
+import { scheduleData } from "@/lib/database/scheduleData";
 
 const tournamentPhases = [
   { id: "all", name: "All Matches", color: "bg-blue-500" },
@@ -13,87 +14,6 @@ const tournamentPhases = [
   { id: "quarter", name: "Quarter Finals", color: "bg-orange-500" },
   { id: "semi", name: "Semi Finals", color: "bg-red-500" },
   { id: "final", name: "Final", color: "bg-purple-500" },
-];
-
-const scheduleData = [
-  {
-    date: "2026-06-11",
-    phase: "group",
-    matches: [
-      {
-        id: 1,
-        time: "12:00",
-        homeTeam: { name: "Mexico", flag: "/flags/mexico.svg" },
-        awayTeam: { name: "Canada", flag: "/flags/canada.svg" },
-        stadium: "Azteca Stadium",
-        city: "Mexico City",
-        group: "A",
-        status: "upcoming",
-      },
-      {
-        id: 2,
-        time: "15:00",
-        homeTeam: { name: "USA", flag: "/flags/usa.svg" },
-        awayTeam: { name: "Wales", flag: "/flags/wales.svg" },
-        stadium: "MetLife Stadium",
-        city: "New York",
-        group: "A",
-        status: "upcoming",
-      },
-    ],
-  },
-  {
-    date: "2026-06-12",
-    phase: "group",
-    matches: [
-      {
-        id: 3,
-        time: "18:00",
-        homeTeam: { name: "Brazil", flag: "/flags/brazil.svg" },
-        awayTeam: { name: "Germany", flag: "/flags/germany.svg" },
-        stadium: "SoFi Stadium",
-        city: "Los Angeles",
-        group: "B",
-        status: "upcoming",
-      },
-      {
-        id: 4,
-        time: "21:00",
-        homeTeam: { name: "Argentina", flag: "/flags/argentina.svg" },
-        awayTeam: { name: "Spain", flag: "/flags/spain.svg" },
-        stadium: "AT&T Stadium",
-        city: "Dallas",
-        group: "B",
-        status: "upcoming",
-      },
-    ],
-  },
-  {
-    date: "2026-06-13",
-    phase: "group",
-    matches: [
-      {
-        id: 5,
-        time: "16:00",
-        homeTeam: { name: "France", flag: "/flags/france.svg" },
-        awayTeam: { name: "England", flag: "/flags/england.svg" },
-        stadium: "BMO Field",
-        city: "Toronto",
-        group: "C",
-        status: "upcoming",
-      },
-      {
-        id: 6,
-        time: "19:00",
-        homeTeam: { name: "Portugal", flag: "/flags/portugal.svg" },
-        awayTeam: { name: "Netherlands", flag: "/flags/netherlands.svg" },
-        stadium: "BC Place",
-        city: "Vancouver",
-        group: "C",
-        status: "upcoming",
-      },
-    ],
-  },
 ];
 
 export function WorldCupSchedulePage() {

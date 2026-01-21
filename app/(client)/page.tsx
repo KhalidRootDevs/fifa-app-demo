@@ -3,7 +3,7 @@ import { FeaturedMatches } from "@/components/features/matches/featured-matches"
 import { MatchList } from "@/components/features/matches/match-list";
 import { WorldCupGroups } from "@/components/world-cup-groups";
 import { WorldCupSidebar } from "@/components/world-cup-sidebar";
-import { SmallAds } from "@/components/small-ads";
+import { SmallAds } from "@/components/features/ads/small-ads";
 import BannerAds from "@/components/features/ads/banner-ads";
 
 export default function HomePage() {

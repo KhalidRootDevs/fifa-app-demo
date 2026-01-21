@@ -1,72 +1,6 @@
-import Image from "next/image"
-import Link from "next/link"
-
-const allMatches = [
-  {
-    id: 1,
-    homeTeam: { name: "Villarreal", logo: "/icons/villarreal.svg" },
-    awayTeam: { name: "Espanyol", logo: "/icons/espanyol.svg" },
-    score: "0 - 0",
-    league: "La Liga",
-    isLive: true,
-  },
-  {
-    id: 2,
-    homeTeam: { name: "Nantes", logo: "/icons/nantes.svg" },
-    awayTeam: { name: "Toulouse", logo: "/icons/toulouse.svg" },
-    score: "0 - 0",
-    league: "Ligue 1",
-    isLive: true,
-  },
-  {
-    id: 3,
-    homeTeam: { name: "Montpellier", logo: "/icons/montpellier.svg" },
-    awayTeam: { name: "Reims", logo: "/icons/reims.svg" },
-    score: "0 - 0",
-    league: "Ligue 1",
-    isLive: true,
-  },
-  {
-    id: 4,
-    homeTeam: { name: "Lens", logo: "/icons/lens.svg" },
-    awayTeam: { name: "Auxerre", logo: "/icons/auxerre.svg" },
-    score: "0 - 0",
-    league: "Ligue 1",
-    isLive: true,
-  },
-  {
-    id: 5,
-    homeTeam: { name: "Liverpool", logo: "/icons/liverpool.svg" },
-    awayTeam: { name: "Tottenham", logo: "/icons/tottenham.svg" },
-    score: "0 - 0",
-    league: "Premier League",
-    isLive: true,
-  },
-  {
-    id: 6,
-    homeTeam: { name: "Werder Bremen", logo: "/icons/bremen.svg" },
-    awayTeam: { name: "FC St. Pauli", logo: "/icons/stpauli.svg" },
-    score: "0 - 0",
-    league: "Bundesliga",
-    isLive: true,
-  },
-  {
-    id: 7,
-    homeTeam: { name: "Marseille", logo: "/icons/marseille.svg" },
-    awayTeam: { name: "Stade Brestoix 29", logo: "/icons/brest.svg" },
-    score: "0 - 0",
-    league: "Ligue 1",
-    isLive: true,
-  },
-  {
-    id: 8,
-    homeTeam: { name: "Bucaramanga", logo: "/icons/bucaramanga.svg" },
-    awayTeam: { name: "Millonarios", logo: "/icons/millonarios.svg" },
-    score: "0 - 0",
-    league: "Primera A",
-    isLive: true,
-  },
-]
+import { allMatches } from "@/lib/database/allMatches";
+import Image from "next/image";
+import Link from "next/link";
 
 export function AllMatches() {
   return (
@@ -78,13 +12,18 @@ export function AllMatches() {
 
       <div className="mt-4 space-y-3">
         {allMatches.map((match) => (
-          <div key={match.id} className="bg-dark rounded-md p-3 flex items-center">
+          <div
+            key={match.id}
+            className="bg-dark rounded-md p-3 flex items-center"
+          >
             <div className="flex-shrink-0">
               <span className="flex items-center text-xs text-red-500 font-medium">
                 <span className="w-2 h-2 bg-red-500 rounded-full mr-1"></span>
                 Live Now
               </span>
-              <span className="text-xs text-gray-400 block mt-1">{match.league}</span>
+              <span className="text-xs text-gray-400 block mt-1">
+                {match.league}
+              </span>
             </div>
 
             <div className="flex-1 flex items-center justify-between mx-4">
@@ -139,5 +78,5 @@ export function AllMatches() {
         ))}
       </div>
     </div>
-  )
+  );
 }

@@ -1,122 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { Search, Trophy, X, Globe, Calendar } from "lucide-react"
-
-// League data
-const leagues = [
-  {
-    id: "ucl",
-    name: "UEFA Champions League",
-    icon: "/icons/ucl.svg",
-    background: "/placeholder.svg?height=200&width=400&text=UEFA+Champions+League",
-    region: "Europe",
-    teams: 32,
-    matches: 125,
-    currentChampion: "Manchester City",
-    championLogo: "/icons/mancity.svg",
-    nextMatchDate: "2023-11-22",
-  },
-  {
-    id: "premier",
-    name: "Premier League",
-    icon: "/icons/premier.svg",
-    background: "/placeholder.svg?height=200&width=400&text=Premier+League",
-    region: "England",
-    teams: 20,
-    matches: 380,
-    currentChampion: "Manchester City",
-    championLogo: "/icons/mancity.svg",
-    nextMatchDate: "2023-11-20",
-  },
-  {
-    id: "laliga",
-    name: "La Liga",
-    icon: "/icons/laliga.svg",
-    background: "/placeholder.svg?height=200&width=400&text=La+Liga",
-    region: "Spain",
-    teams: 20,
-    matches: 380,
-    currentChampion: "Barcelona",
-    championLogo: "/icons/barcelona.svg",
-    nextMatchDate: "2023-11-18",
-  },
-  {
-    id: "bundesliga",
-    name: "Bundesliga",
-    icon: "/icons/bundesliga.svg",
-    background: "/placeholder.svg?height=200&width=400&text=Bundesliga",
-    region: "Germany",
-    teams: 18,
-    matches: 306,
-    currentChampion: "Bayern Munich",
-    championLogo: "/icons/bayern.svg",
-    nextMatchDate: "2023-11-19",
-  },
-  {
-    id: "seriea",
-    name: "Serie A",
-    icon: "/icons/seriea.svg",
-    background: "/placeholder.svg?height=200&width=400&text=Serie+A",
-    region: "Italy",
-    teams: 20,
-    matches: 380,
-    currentChampion: "Napoli",
-    championLogo: "/icons/napoli.svg",
-    nextMatchDate: "2023-11-19",
-  },
-  {
-    id: "ligue1",
-    name: "Ligue 1",
-    icon: "/icons/ligue1.svg",
-    background: "/placeholder.svg?height=200&width=400&text=Ligue+1",
-    region: "France",
-    teams: 18,
-    matches: 306,
-    currentChampion: "PSG",
-    championLogo: "/icons/psg.svg",
-    nextMatchDate: "2023-11-18",
-  },
-  {
-    id: "uel",
-    name: "UEFA Europa League",
-    icon: "/icons/uel.svg",
-    background: "/placeholder.svg?height=200&width=400&text=UEFA+Europa+League",
-    region: "Europe",
-    teams: 32,
-    matches: 141,
-    currentChampion: "Sevilla",
-    championLogo: "/icons/sevilla.svg",
-    nextMatchDate: "2023-11-23",
-  },
-  {
-    id: "eredivisie",
-    name: "Eredivisie",
-    icon: "/icons/eredivisie.svg",
-    background: "/placeholder.svg?height=200&width=400&text=Eredivisie",
-    region: "Netherlands",
-    teams: 18,
-    matches: 306,
-    currentChampion: "Feyenoord",
-    championLogo: "/icons/feyenoord.svg",
-    nextMatchDate: "2023-11-21",
-  },
-  {
-    id: "primeiraliga",
-    name: "Primeira Liga",
-    icon: "/icons/primeiraliga.svg",
-    background: "/placeholder.svg?height=200&width=400&text=Primeira+Liga",
-    region: "Portugal",
-    teams: 18,
-    matches: 306,
-    currentChampion: "Benfica",
-    championLogo: "/icons/benfica.svg",
-    nextMatchDate: "2023-11-20",
-  },
-]
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Search, Trophy, X, Globe, Calendar } from "lucide-react";
+import { leagues } from "@/lib/database/leagues";
 
 // Region filters
 const regions = [
@@ -129,23 +18,26 @@ const regions = [
   { id: "france", name: "France" },
   { id: "netherlands", name: "Netherlands" },
   { id: "portugal", name: "Portugal" },
-]
+];
 
 export function AllLeagues() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedRegion, setSelectedRegion] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("all");
 
   // Filter leagues based on search query and selected region
   const filteredLeagues = leagues.filter((league) => {
     // Search filter
-    const searchLower = searchQuery.toLowerCase()
-    const matchesSearch = searchQuery === "" || league.name.toLowerCase().includes(searchLower)
+    const searchLower = searchQuery.toLowerCase();
+    const matchesSearch =
+      searchQuery === "" || league.name.toLowerCase().includes(searchLower);
 
     // Region filter
-    const matchesRegion = selectedRegion === "all" || league.region.toLowerCase() === selectedRegion.toLowerCase()
+    const matchesRegion =
+      selectedRegion === "all" ||
+      league.region.toLowerCase() === selectedRegion.toLowerCase();
 
-    return matchesSearch && matchesRegion
-  })
+    return matchesSearch && matchesRegion;
+  });
 
   return (
     <div className="space-y-6">
@@ -194,7 +86,10 @@ export function AllLeagues() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredLeagues.map((league) => (
             <Link key={league.id} href={`/leagues/${league.id}`}>
-              <motion.div className="glass-card rounded-xl overflow-hidden h-full" whileHover={{ y: -5 }}>
+              <motion.div
+                className="glass-card rounded-xl overflow-hidden h-full"
+                whileHover={{ y: -5 }}
+              >
                 <div className="relative h-40">
                   <Image
                     src={league.background || "/placeholder.svg"}
@@ -232,7 +127,9 @@ export function AllLeagues() {
                       <span className="text-sm">Current Champion:</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium">{league.currentChampion}</span>
+                      <span className="text-sm font-medium">
+                        {league.currentChampion}
+                      </span>
                       <div className="w-6 h-6 bg-white/5 rounded-full flex items-center justify-center">
                         <Image
                           src={league.championLogo || "/placeholder.svg"}
@@ -248,7 +145,10 @@ export function AllLeagues() {
                   <div className="flex justify-between text-sm text-gray-400">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      <span>Next match: {new Date(league.nextMatchDate).toLocaleDateString()}</span>
+                      <span>
+                        Next match:{" "}
+                        {new Date(league.nextMatchDate).toLocaleDateString()}
+                      </span>
                     </div>
                     <div>{league.teams} teams</div>
                   </div>
@@ -264,12 +164,13 @@ export function AllLeagues() {
           </div>
           <h3 className="text-xl font-medium mb-2">No leagues found</h3>
           <p className="text-gray-400 mb-6">
-            We couldn't find any leagues matching your search criteria. Try adjusting your filters.
+            We couldn't find any leagues matching your search criteria. Try
+            adjusting your filters.
           </p>
           <button
             onClick={() => {
-              setSearchQuery("")
-              setSelectedRegion("all")
+              setSearchQuery("");
+              setSelectedRegion("all");
             }}
             className="gradient-bg text-white px-6 py-2 rounded-lg font-medium"
           >
@@ -278,5 +179,5 @@ export function AllLeagues() {
         </div>
       )}
     </div>
-  )
+  );
 }
