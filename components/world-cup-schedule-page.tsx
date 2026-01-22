@@ -19,7 +19,6 @@ const tournamentPhases = [
 export function WorldCupSchedulePage() {
   const [selectedPhase, setSelectedPhase] = useState("all");
   const [selectedDate, setSelectedDate] = useState("all");
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Get unique dates
   const availableDates = ["all", ...scheduleData.map((day) => day.date)];

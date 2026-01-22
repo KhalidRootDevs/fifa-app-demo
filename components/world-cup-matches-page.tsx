@@ -8,10 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { MatchCard } from "@/components/match-card";
-
 import { SmallAds } from "@/components/features/ads/small-ads";
 import BannerAds from "./features/ads/banner-ads";
-import { Match } from "@/types";
 import { sampleMatches } from "@/lib/database/sampleMatches";
 
 const phases = [
@@ -124,7 +122,7 @@ export function WorldCupMatchesPage() {
           <Button
             variant="outline"
             onClick={() => setShowFilters(!showFilters)}
-            className="btn-outline"
+            className="btn-outline text-black"
           >
             <Filter className="w-4 h-4 mr-2" />
             Filters
@@ -269,33 +267,33 @@ export function WorldCupMatchesPage() {
           {/* Quick Stats */}
           <Card className="glass-card">
             <CardContent className="p-4">
-              <h3 className="font-semibold mb-4 flex items-center">
+              <h3 className="font-semibold mb-4 flex items-center text-white">
                 <Trophy className="w-4 h-4 mr-2 text-yellow-400" />
                 Tournament Info
               </h3>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Total Teams:</span>
-                  <span className="font-medium">48</span>
+                  <span className="font-medium text-gray-400">48</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Host Countries:</span>
-                  <span className="font-medium">3</span>
+                  <span className="font-medium text-gray-400">3</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Total Venues:</span>
-                  <span className="font-medium">16</span>
+                  <span className="font-medium text-gray-400">16</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Tournament Days:</span>
-                  <span className="font-medium">32</span>
+                  <span className="font-medium text-gray-400">32</span>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Host Countries */}
-          <Card className="glass-card">
+          <Card className="glass-card text-white">
             <CardContent className="p-4">
               <h3 className="font-semibold mb-4 flex items-center">
                 <MapPin className="w-4 h-4 mr-2 text-blue-400" />

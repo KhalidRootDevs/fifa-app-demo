@@ -1,21 +1,35 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle, MessageSquare, HelpCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  Send,
+  CheckCircle,
+  MessageSquare,
+  HelpCircle,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface FormData {
-  name: string
-  email: string
-  subject: string
-  message: string
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
 }
 
 export function ContactForm() {
@@ -24,66 +38,66 @@ export function ContactForm() {
     email: "",
     subject: "",
     message: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [errors, setErrors] = useState<Partial<FormData>>({})
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Partial<FormData>>({});
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {}
+    const newErrors: Partial<FormData> = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = "Name is required"
+      newErrors.name = "Name is required";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required"
+      newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address"
+      newErrors.email = "Please enter a valid email address";
     }
 
     if (!formData.subject.trim()) {
-      newErrors.subject = "Subject is required"
+      newErrors.subject = "Subject is required";
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = "Message is required"
+      newErrors.message = "Message is required";
     } else if (formData.message.length < 10) {
-      newErrors.message = "Message must be at least 10 characters long"
+      newErrors.message = "Message must be at least 10 characters long";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!validateForm()) {
-      return
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    setIsSubmitted(true)
-    setIsSubmitting(false)
+    setIsSubmitted(true);
+    setIsSubmitting(false);
 
     // Reset form after 3 seconds
     setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({ name: "", email: "", subject: "", message: "" })
-    }, 3000)
-  }
+      setIsSubmitted(false);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    }, 3000);
+  };
 
   const handleInputChange = (field: keyof FormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }))
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
-  }
+  };
 
   const contactInfo = [
     {
@@ -114,7 +128,7 @@ export function ContactForm() {
       value: "Mon-Fri: 9AM-6PM EST",
       action: "#",
     },
-  ]
+  ];
 
   const faqs = [
     {
@@ -142,7 +156,7 @@ export function ContactForm() {
       answer:
         "Some content may be subject to geographical restrictions due to broadcasting rights. We're constantly working to expand our coverage globally.",
     },
-  ]
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -167,8 +181,9 @@ export function ContactForm() {
             </span>
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Have questions about DRM Sport? We're here to help! Reach out to our support team for assistance with
-            subscriptions, technical issues, or general inquiries.
+            Have questions about DRM Sport? We're here to help! Reach out to our
+            support team for assistance with subscriptions, technical issues, or
+            general inquiries.
           </p>
         </motion.div>
 
@@ -196,14 +211,22 @@ export function ContactForm() {
                     transition={{ duration: 0.5 }}
                   >
                     <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                    <h3 className="text-2xl font-semibold text-white mb-2">Message Sent!</h3>
-                    <p className="text-gray-300">Thank you for contacting us. We'll get back to you within 24 hours.</p>
+                    <h3 className="text-2xl font-semibold text-white mb-2">
+                      Message Sent!
+                    </h3>
+                    <p className="text-gray-300">
+                      Thank you for contacting us. We'll get back to you within
+                      24 hours.
+                    </p>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium text-gray-300 mb-2"
+                        >
                           Full Name *
                         </label>
                         <Input
@@ -211,15 +234,24 @@ export function ContactForm() {
                           type="text"
                           placeholder="Enter your full name"
                           value={formData.name}
-                          onChange={(e) => handleInputChange("name", e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("name", e.target.value)
+                          }
                           className={`bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-green-500 ${
                             errors.name ? "border-red-500" : ""
                           }`}
                         />
-                        {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
+                        {errors.name && (
+                          <p className="text-red-400 text-sm mt-1">
+                            {errors.name}
+                          </p>
+                        )}
                       </div>
                       <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium text-gray-300 mb-2"
+                        >
                           Email Address *
                         </label>
                         <Input
@@ -227,17 +259,26 @@ export function ContactForm() {
                           type="email"
                           placeholder="Enter your email address"
                           value={formData.email}
-                          onChange={(e) => handleInputChange("email", e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("email", e.target.value)
+                          }
                           className={`bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-green-500 ${
                             errors.email ? "border-red-500" : ""
                           }`}
                         />
-                        {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
+                        {errors.email && (
+                          <p className="text-red-400 text-sm mt-1">
+                            {errors.email}
+                          </p>
+                        )}
                       </div>
                     </div>
 
                     <div>
-                      <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
+                      <label
+                        htmlFor="subject"
+                        className="block text-sm font-medium text-gray-300 mb-2"
+                      >
                         Subject *
                       </label>
                       <Input
@@ -245,16 +286,25 @@ export function ContactForm() {
                         type="text"
                         placeholder="What's this about?"
                         value={formData.subject}
-                        onChange={(e) => handleInputChange("subject", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("subject", e.target.value)
+                        }
                         className={`bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-green-500 ${
                           errors.subject ? "border-red-500" : ""
                         }`}
                       />
-                      {errors.subject && <p className="text-red-400 text-sm mt-1">{errors.subject}</p>}
+                      {errors.subject && (
+                        <p className="text-red-400 text-sm mt-1">
+                          {errors.subject}
+                        </p>
+                      )}
                     </div>
 
                     <div>
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                      <label
+                        htmlFor="message"
+                        className="block text-sm font-medium text-gray-300 mb-2"
+                      >
                         Message *
                       </label>
                       <Textarea
@@ -262,14 +312,22 @@ export function ContactForm() {
                         placeholder="Tell us more about your inquiry..."
                         rows={6}
                         value={formData.message}
-                        onChange={(e) => handleInputChange("message", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("message", e.target.value)
+                        }
                         className={`bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-green-500 resize-none ${
                           errors.message ? "border-red-500" : ""
                         }`}
                       />
                       <div className="flex justify-between items-center mt-2">
-                        {errors.message && <p className="text-red-400 text-sm">{errors.message}</p>}
-                        <p className="text-gray-400 text-sm ml-auto">{formData.message.length}/500</p>
+                        {errors.message && (
+                          <p className="text-red-400 text-sm">
+                            {errors.message}
+                          </p>
+                        )}
+                        <p className="text-gray-400 text-sm ml-auto">
+                          {formData.message.length}/500
+                        </p>
                       </div>
                     </div>
 
@@ -304,14 +362,24 @@ export function ContactForm() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {contactInfo.map((info, index) => (
-              <Card key={index} className="glass-effect border-white/10 hover:border-green-500/30 transition-colors">
+              <Card
+                key={index}
+                className="glass-effect border-white/10 hover:border-green-500/30 transition-colors"
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 bg-green-500/20 rounded-lg text-green-400">{info.icon}</div>
+                    <div className="p-3 bg-green-500/20 rounded-lg text-green-400">
+                      {info.icon}
+                    </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-white mb-1">{info.title}</h3>
-                      <p className="text-gray-400 text-sm mb-2">{info.description}</p>
-                      {info.action.startsWith("mailto:") || info.action.startsWith("tel:") ? (
+                      <h3 className="font-semibold text-white mb-1">
+                        {info.title}
+                      </h3>
+                      <p className="text-gray-400 text-sm mb-2">
+                        {info.description}
+                      </p>
+                      {info.action.startsWith("mailto:") ||
+                      info.action.startsWith("tel:") ? (
                         <a
                           href={info.action}
                           className="text-green-400 hover:text-green-300 transition-colors font-medium"
@@ -346,11 +414,17 @@ export function ContactForm() {
             <CardContent>
               <Accordion type="single" collapsible className="w-full">
                 {faqs.map((faq, index) => (
-                  <AccordionItem key={index} value={`item-${index}`} className="border-white/10">
+                  <AccordionItem
+                    key={index}
+                    value={`item-${index}`}
+                    className="border-white/10"
+                  >
                     <AccordionTrigger className="text-white hover:text-green-400 transition-colors">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-gray-300">{faq.answer}</AccordionContent>
+                    <AccordionContent className="text-gray-300">
+                      {faq.answer}
+                    </AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
@@ -359,5 +433,5 @@ export function ContactForm() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

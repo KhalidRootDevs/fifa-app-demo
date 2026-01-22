@@ -1,15 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Plus, Search, Eye, Edit, Trash2, Calendar, Users, Trophy, Clock } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Plus,
+  Search,
+  Eye,
+  Edit,
+  Trash2,
+  Calendar,
+  Users,
+  Trophy,
+  Clock,
+} from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 // Mock data for matches
 const mockMatches = [
@@ -83,53 +106,75 @@ const mockMatches = [
     homeScore: 3,
     awayScore: 2,
   },
-]
+];
 
-const groups = ["All Groups", "Group A", "Group B", "Group C", "Group D", "Group E", "Group F", "Group G", "Group H"]
-const statuses = ["All Status", "Upcoming", "Live", "Finished"]
+const groups = [
+  "All Groups",
+  "Group A",
+  "Group B",
+  "Group C",
+  "Group D",
+  "Group E",
+  "Group F",
+  "Group G",
+  "Group H",
+];
+const statuses = ["All Status", "Upcoming", "Live", "Finished"];
 
 export default function AdminMatchesPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedGroup, setSelectedGroup] = useState("All Groups")
-  const [selectedStatus, setSelectedStatus] = useState("All Status")
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("All Groups");
+  const [selectedStatus, setSelectedStatus] = useState("All Status");
 
   const filteredMatches = mockMatches.filter((match) => {
     const matchesSearch =
       match.homeTeam.toLowerCase().includes(searchTerm.toLowerCase()) ||
       match.awayTeam.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      match.venue.toLowerCase().includes(searchTerm.toLowerCase())
+      match.venue.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesGroup = selectedGroup === "All Groups" || match.group === selectedGroup
-    const matchesStatus = selectedStatus === "All Status" || match.status === selectedStatus
+    const matchesGroup =
+      selectedGroup === "All Groups" || match.group === selectedGroup;
+    const matchesStatus =
+      selectedStatus === "All Status" || match.status === selectedStatus;
 
-    return matchesSearch && matchesGroup && matchesStatus
-  })
+    return matchesSearch && matchesGroup && matchesStatus;
+  });
 
-  const totalMatches = mockMatches.length
-  const liveMatches = mockMatches.filter((m) => m.status === "Live").length
-  const upcomingMatches = mockMatches.filter((m) => m.status === "Upcoming").length
-  const completedMatches = mockMatches.filter((m) => m.status === "Finished").length
+  const totalMatches = mockMatches.length;
+  const liveMatches = mockMatches.filter((m) => m.status === "Live").length;
+  const upcomingMatches = mockMatches.filter(
+    (m) => m.status === "Upcoming",
+  ).length;
+  const completedMatches = mockMatches.filter(
+    (m) => m.status === "Finished",
+  ).length;
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "Live":
-        return <Badge className="bg-red-500 text-white animate-pulse">Live</Badge>
+        return (
+          <Badge className="bg-red-500 text-white animate-pulse">Live</Badge>
+        );
       case "Finished":
-        return <Badge className="bg-green-500 text-white">Finished</Badge>
+        return <Badge className="bg-green-500 text-white">Finished</Badge>;
       case "Upcoming":
-        return <Badge className="bg-blue-500 text-white">Upcoming</Badge>
+        return <Badge className="bg-blue-500 text-white">Upcoming</Badge>;
       default:
-        return <Badge variant="secondary">{status}</Badge>
+        return <Badge variant="secondary">{status}</Badge>;
     }
-  }
+  };
 
   return (
-    <div className="container mx-auto max-w-7xl p-4 space-y-6">
+    <div className="container p-4 space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-black dark:text-white">Match Management</h1>
-          <p className="text-gray-600 dark:text-gray-400">Manage FIFA 2026 World Cup matches</p>
+          <h1 className="text-3xl font-bold text-black dark:text-white">
+            Match Management
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            Manage FIFA 2026 World Cup matches
+          </p>
         </div>
         <Link href="/admin/matches/add">
           <Button className="bg-black text-white dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">
@@ -143,45 +188,67 @@ export default function AdminMatchesPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="border-gray-200 dark:border-gray-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Matches</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Total Matches
+            </CardTitle>
             <Calendar className="h-4 w-4 text-gray-600 dark:text-gray-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-black dark:text-white">{totalMatches}</div>
-            <p className="text-xs text-gray-600 dark:text-gray-400">All tournament matches</p>
+            <div className="text-2xl font-bold text-black dark:text-white">
+              {totalMatches}
+            </div>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              All tournament matches
+            </p>
           </CardContent>
         </Card>
 
         <Card className="border-gray-200 dark:border-gray-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">Live Matches</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Live Matches
+            </CardTitle>
             <Clock className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-500">{liveMatches}</div>
-            <p className="text-xs text-gray-600 dark:text-gray-400">Currently playing</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Currently playing
+            </p>
           </CardContent>
         </Card>
 
         <Card className="border-gray-200 dark:border-gray-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">Upcoming</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Upcoming
+            </CardTitle>
             <Users className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-500">{upcomingMatches}</div>
-            <p className="text-xs text-gray-600 dark:text-gray-400">Scheduled matches</p>
+            <div className="text-2xl font-bold text-blue-500">
+              {upcomingMatches}
+            </div>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Scheduled matches
+            </p>
           </CardContent>
         </Card>
 
         <Card className="border-gray-200 dark:border-gray-800">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">Completed</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Completed
+            </CardTitle>
             <Trophy className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-500">{completedMatches}</div>
-            <p className="text-xs text-gray-600 dark:text-gray-400">Finished matches</p>
+            <div className="text-2xl font-bold text-green-500">
+              {completedMatches}
+            </div>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Finished matches
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -233,7 +300,9 @@ export default function AdminMatchesPage() {
       {/* Matches Table */}
       <Card className="border-gray-200 dark:border-gray-800">
         <CardHeader>
-          <CardTitle className="text-black dark:text-white">Matches ({filteredMatches.length})</CardTitle>
+          <CardTitle className="text-black dark:text-white">
+            Matches ({filteredMatches.length})
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -246,7 +315,9 @@ export default function AdminMatchesPage() {
                   <TableHead className="min-w-[200px]">Venue</TableHead>
                   <TableHead className="min-w-[80px]">Group</TableHead>
                   <TableHead className="min-w-[80px]">Status</TableHead>
-                  <TableHead className="min-w-[120px] text-right">Actions</TableHead>
+                  <TableHead className="min-w-[120px] text-right">
+                    Actions
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -255,14 +326,21 @@ export default function AdminMatchesPage() {
                     <TableCell colSpan={7} className="text-center py-8">
                       <div className="flex flex-col items-center gap-2">
                         <Calendar className="h-8 w-8 text-gray-400" />
-                        <p className="text-gray-500 dark:text-gray-400">No matches found</p>
-                        <p className="text-sm text-gray-400">Try adjusting your filters</p>
+                        <p className="text-gray-500 dark:text-gray-400">
+                          No matches found
+                        </p>
+                        <p className="text-sm text-gray-400">
+                          Try adjusting your filters
+                        </p>
                       </div>
                     </TableCell>
                   </TableRow>
                 ) : (
                   filteredMatches.map((match) => (
-                    <TableRow key={match.id} className="hover:bg-gray-50 dark:hover:bg-gray-900/50">
+                    <TableRow
+                      key={match.id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-900/50"
+                    >
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <div className="flex items-center gap-2">
@@ -273,7 +351,9 @@ export default function AdminMatchesPage() {
                               height={16}
                               className="rounded-sm"
                             />
-                            <span className="font-medium text-black dark:text-white">{match.homeTeam}</span>
+                            <span className="font-medium text-black dark:text-white">
+                              {match.homeTeam}
+                            </span>
                           </div>
                           <span className="text-gray-400">vs</span>
                           <div className="flex items-center gap-2">
@@ -284,12 +364,15 @@ export default function AdminMatchesPage() {
                               height={16}
                               className="rounded-sm"
                             />
-                            <span className="font-medium text-black dark:text-white">{match.awayTeam}</span>
+                            <span className="font-medium text-black dark:text-white">
+                              {match.awayTeam}
+                            </span>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>
-                        {match.status === "Finished" || match.status === "Live" ? (
+                        {match.status === "Finished" ||
+                        match.status === "Live" ? (
                           <div className="font-mono text-lg font-bold text-black dark:text-white">
                             {match.homeScore} - {match.awayScore}
                           </div>
@@ -299,13 +382,18 @@ export default function AdminMatchesPage() {
                       </TableCell>
                       <TableCell>
                         <div className="text-sm">
-                          <div className="font-medium text-black dark:text-white">{match.date}</div>
+                          <div className="font-medium text-black dark:text-white">
+                            {match.date}
+                          </div>
                           <div className="text-gray-500">{match.time}</div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="max-w-[200px]">
-                          <span className="text-sm text-black dark:text-white truncate block" title={match.venue}>
+                          <span
+                            className="text-sm text-black dark:text-white truncate block"
+                            title={match.venue}
+                          >
                             {match.venue}
                           </span>
                         </div>
@@ -328,7 +416,11 @@ export default function AdminMatchesPage() {
                               <Edit className="h-3 w-3" />
                             </Button>
                           </Link>
-                          <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-700">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-red-500 hover:text-red-700"
+                          >
                             <Trash2 className="h-3 w-3" />
                           </Button>
                         </div>
@@ -342,5 +434,5 @@ export default function AdminMatchesPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

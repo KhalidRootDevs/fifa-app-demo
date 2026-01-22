@@ -71,7 +71,7 @@ export function SmallAds() {
               <Button
                 size="sm"
                 variant="outline"
-                className="h-7 px-2 bg-transparent"
+                className="h-7 px-2 bg-transparent text-white hover:bg-white/10"
               >
                 <ExternalLink className="w-3 h-3" />
               </Button>
@@ -81,7 +81,7 @@ export function SmallAds() {
 
         <Button
           variant="outline"
-          className="w-full mt-4 bg-transparent"
+          className="w-full mt-4 bg-transparent text-white hover:bg-white/10"
           size="sm"
         >
           View All FIFA Apps

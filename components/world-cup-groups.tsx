@@ -32,7 +32,7 @@ export function WorldCupGroups() {
             className={`min-w-[60px] ${
               selectedGroup === group
                 ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
-                : "text-gray-400 hover:text-white"
+                : "text-gray-400 hover:text-white hover:bg-white/5"
             }`}
           >
             Group {group}
